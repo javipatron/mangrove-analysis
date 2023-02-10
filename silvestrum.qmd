@@ -1,0 +1,204 @@
+---
+title: "Silvestrum Assignment"
+author: "Javier Patrón"
+date: "`r Sys.Date()`"
+output:
+  tufte::tufte_html: default
+  tufte::tufte_handout:
+    citation_package: natbib
+    latex_engine: xelatex
+  tufte::tufte_book:
+    citation_package: natbib
+    latex_engine: xelatex
+---
+
+#Load the libraries
+```{r}
+library(tidyverse)
+library(here)
+library(janitor)
+library(knitr)
+library(pwr)
+```
+
+
+Set the File path for Data extraction
+```{r}
+#Setting my filepaths
+rootdir <- ("/Users/javipatron/Documents/MEDS/Courses/eds222/homework/eds222-finalproject")
+data <- file.path(rootdir,"data")
+
+```
+
+Reading the .csv files
+```{r}
+#Load the shared Mangrove Data from Silvestrum
+mangrove_df_a <- read_csv(file.path(data,"clean_monitoring_data_javier.csv")) |> clean_names() #Clean names will make the column names as lower case
+
+mangrove_df_b <- read_csv(file.path(data, "monitoring_siteB_data_javier.csv")) |> clean_names() |> na.omit() #homogenizing the column names and adding NA to values
+
+```
+
+
+# Site A
+
+Understand the data with R functions
+```{r}
+#Wranggle the data for table A
+dim(mangrove_df_a) #Dimentions
+names(mangrove_df_a) #Column Names
+skimr::skim(mangrove_df_a) #General Skim through the data set. Column per column results
+summary(mangrove_df_a) #Stats analysis per column
+
+unique(mangrove_df_a$plantation_year) #Get to know the different years
+unique(mangrove_df_a$plot_size_m2) # Get to know the unique plot sizes
+
+
+```
+
+
+#Cleaning and adding some changes to the data
+```{r}
+#Changing some data
+mangrove_df_a$plantation_year <- as.character(mangrove_df_a$plantation_year) # Making the years as character instead of numbers
+mangrove_df_a$plot <- as.character(mangrove_df_a$plot) # Making the plot names as character
+mangrove_df_a$plot_size_m2 <- as.factor(mangrove_df_a$plot_size_m2) # Making the plot sizes as factor instead of numeric
+
+```
+
+Create a table that is grouped by the each plantation year containing the total number of sample plots and the total number of samples trees per plantation.
+
+```{r}
+
+mangrove_summary <- mangrove_df_a |> 
+  group_by(plantation_year) |> 
+  summarise(plot_count = length(unique(plot)),
+          tot_samples = n(),
+          "mean_carbon (Mg/ha)" = round(mean(total_tree_mg_c_ha),3))
+          
+knitr::kable(mangrove_summary)
+
+```
+
+Create a table that shows all the samples per each plot
+```{r}
+
+plots_a <- mangrove_df_a |> 
+  group_by(plantation_year,plot,plot_size_m2) |> 
+  summarise(plot = unique(plot),
+            sample_count = n(),
+          "mean_carbon (Mg/ha)" = round(mean(total_tree_mg_c_ha),3))
+
+```
+
+Create a table of samples per plot but grouping by sample size
+```{r}
+mangrove_plots_summary <- mangrove_df_a |>
+  filter(plot_size_m2 == 153.938 ) |> 
+  group_by(plantation_year) |> 
+  summarise(plot_size_m2 = unique(plot_size_m2),
+            plot_count = length(unique(plot)),
+            tot_samples = n(),
+            mean_plant_size_cm = (mean(cd_chatting_m)),
+            mean_tot_carbon_g_c = (mean(total_tree_kg_c)),
+            sd_plant_size = sd(cd_chatting_m),
+            sd_tot_carbon_kg_c = sd(total_tree_kg_c))
+
+kable(mangrove_plots_summary)
+```
+
+
+# Site B
+
+Create a table that summarises the site B by year
+```{r}
+mangrove_plots_b_summary <- mangrove_df_b |> 
+  group_by(year) |> 
+  summarise(plot_count = length(unique(name)),
+            tot_samples = n(),
+            mean_total_c_t_ha = (mean(total_c_t_ha)),
+            sd_total_c_t_ha = sd(total_c_t_ha))
+```
+
+Create a table that shows all the plot samples 
+```{r}
+plots_b <- mangrove_df_b |> 
+  group_by(year, name) |> 
+  summarise(sample_count = n(),
+          "mean_carbon (Mg/ha)" = round(mean(total_c_t_ha),6))
+```
+
+# Joining both dataframes with plot sizes of 154m2 only
+```{r}
+#Cleaning and getting the site A ready for the stacking
+tidy_a <- mangrove_df_a |> 
+  filter(plot_size_m2 == 153.938) |> 
+  select(plantation_year, plot, height_cm,total_tree_kg_c, total_tree_mg_c_ha) |> 
+  mutate(site = "A") |> 
+  relocate(site, .before = plantation_year) |> 
+  rename(year = plantation_year,
+         plot_name = plot,
+         total_tree_c_kg = total_tree_kg_c,
+         "total_tree_c_Mg_ha" = total_tree_mg_c_ha)
+
+```
+
+```{r}
+# Cleaning and getting the site B for the stacking with site A
+tidy_b <- mangrove_df_b |> 
+  select(year, plot, height_cm, total_c_kg, total_c_t_ha) |> 
+  rename(plot_name = plot,
+         total_tree_c_kg = total_c_kg,
+         "total_tree_c_Mg_ha" = total_c_t_ha) |> 
+    mutate(site = "B") |> 
+    relocate(site, .before = year)
+
+```
+
+
+```{r}
+# Creating a row binding to have the same columns but all the information
+full_df <- rbind(tidy_a, tidy_b)
+
+summary_full_df <- full_df |> 
+  group_by(site, year) |> 
+  summarise(plot_count = length(unique(plot_name)),
+            tot_samples = n(),
+            mean_tree_height_cm = round(mean(height_cm),2),
+            mean_tot_carbon_Mg_ha = round(mean(total_tree_c_Mg_ha),2),
+            sd_plant_size = round(sd(height_cm),2),
+            sd_tot_carbon_Mg_ha = round(sd(total_tree_c_Mg_ha),2))
+```
+
+Adding the A/R Methodological Tool
+
+$ n = \frac{N  \text{ }*  \text{ }tvalue^2  \text{ }* \text{ }(\epsilon\ w * s)^2)}{N  \text{ }*\text{ } E^2 + \text{ }tvalue^2  \text{ }* \text{ }\epsilon\ w * s^2} $
+
+
+where:
+*n* = Number of sample plots required for estimation of biomass stocks within the project
+boundary; dimensionless.
+*N* = Total number of possible sample plots within the project boundary (i.e. the sampling
+space or the population); dimensionless.
+*tvalue* = Two-sided Student´s t-value, at infinite degrees of freedom, for the required confidence level; dimensionless. (Table -> 90% = 1.645)
+*w* = Relative weight of the area of stratum i (i.e. the area of the stratum i divided by the project.
+*E* = Acceptable margin of error (i.e. one-half the confidence interval) in estimation of biomass stock within the project boundary; t d.m. (or t d.m. ha-1).
+
+
+```{r}
+
+sample_plots <- function(N, tvalue, w, s, E){
+  
+  epsilon = for (i in range(table)){
+    w * s
+  }
+  n <- (N * tvalue^2 * sum(epsilon)^2) / (N * E^2 + tvalue ^2 * sum(epsilon)^2)
+  
+  return(n)
+}
+
+```
+
+
+
+
