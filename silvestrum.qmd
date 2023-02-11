@@ -10,39 +10,38 @@ output:
   tufte::tufte_book:
     citation_package: natbib
     latex_engine: xelatex
+editor: 
+  markdown: 
+    wrap: 72
 ---
 
 #Load the libraries
+
 ```{r}
 library(tidyverse)
 library(here)
 library(janitor)
 library(knitr)
 library(pwr)
+library(skimr)
+library(tidymodels)
 ```
 
-
-Set the File path for Data extraction
-```{r}
-#Setting my filepaths
-rootdir <- ("/Users/javipatron/Documents/MEDS/Courses/eds222/homework/eds222-finalproject")
-data <- file.path(rootdir,"data")
-
-```
 
 Reading the .csv files
+
 ```{r}
 #Load the shared Mangrove Data from Silvestrum
-mangrove_df_a <- read_csv(file.path(data,"clean_monitoring_data_javier.csv")) |> clean_names() #Clean names will make the column names as lower case
+mangrove_df_a <- read_csv("/Users/javipatron/Documents/MEDS/Personal/projects/mangrove-analysis/data/clean_monitoring_data_javier.csv") |> clean_names() #Clean names will make the column names as lower case
 
-mangrove_df_b <- read_csv(file.path(data, "monitoring_siteB_data_javier.csv")) |> clean_names() |> na.omit() #homogenizing the column names and adding NA to values
+mangrove_df_b <- read_csv("/Users/javipatron/Documents/MEDS/Personal/projects/mangrove-analysis/data/siteb.csv") |> clean_names() |> na.omit()#homogenizing the column names and adding NA to values
 
 ```
-
 
 # Site A
 
 Understand the data with R functions
+
 ```{r}
 #Wranggle the data for table A
 dim(mangrove_df_a) #Dimentions
@@ -56,8 +55,8 @@ unique(mangrove_df_a$plot_size_m2) # Get to know the unique plot sizes
 
 ```
 
-
 #Cleaning and adding some changes to the data
+
 ```{r}
 #Changing some data
 mangrove_df_a$plantation_year <- as.character(mangrove_df_a$plantation_year) # Making the years as character instead of numbers
@@ -66,7 +65,9 @@ mangrove_df_a$plot_size_m2 <- as.factor(mangrove_df_a$plot_size_m2) # Making the
 
 ```
 
-Create a table that is grouped by the each plantation year containing the total number of sample plots and the total number of samples trees per plantation.
+Create a table that is grouped by the each plantation year containing
+the total number of sample plots and the total number of samples trees
+per plantation.
 
 ```{r}
 
@@ -81,6 +82,7 @@ knitr::kable(mangrove_summary)
 ```
 
 Create a table that shows all the samples per each plot
+
 ```{r}
 
 plots_a <- mangrove_df_a |> 
@@ -92,6 +94,7 @@ plots_a <- mangrove_df_a |>
 ```
 
 Create a table of samples per plot but grouping by sample size
+
 ```{r}
 mangrove_plots_summary <- mangrove_df_a |>
   filter(plot_size_m2 == 153.938 ) |> 
@@ -107,7 +110,6 @@ mangrove_plots_summary <- mangrove_df_a |>
 kable(mangrove_plots_summary)
 ```
 
-
 # Site B
 
 Create a table that summarises the site B by year
@@ -120,7 +122,8 @@ mangrove_plots_b_summary <- mangrove_df_b |>
             sd_total_c_t_ha = sd(total_c_t_ha))
 ```
 
-Create a table that shows all the plot samples 
+Create a table that shows all the plot samples
+
 ```{r}
 plots_b <- mangrove_df_b |> 
   group_by(year, name) |> 
@@ -129,15 +132,18 @@ plots_b <- mangrove_df_b |>
 ```
 
 # Joining both dataframes with plot sizes of 154m2 only
+
 ```{r}
 #Cleaning and getting the site A ready for the stacking
 tidy_a <- mangrove_df_a |> 
   filter(plot_size_m2 == 153.938) |> 
-  select(plantation_year, plot, height_cm,total_tree_kg_c, total_tree_mg_c_ha) |> 
-  mutate(site = "A") |> 
+  select(plantation_year, plot, height_cm, cd_chatting_m, total_tree_kg_c, total_tree_mg_c_ha) |> 
+  mutate(site = "A",
+         cd_chatting_m = cd_chatting_m * 100)|> 
   relocate(site, .before = plantation_year) |> 
   rename(year = plantation_year,
          plot_name = plot,
+         crown_diameter_cm = cd_chatting_m,
          total_tree_c_kg = total_tree_kg_c,
          "total_tree_c_Mg_ha" = total_tree_mg_c_ha)
 
@@ -146,44 +152,201 @@ tidy_a <- mangrove_df_a |>
 ```{r}
 # Cleaning and getting the site B for the stacking with site A
 tidy_b <- mangrove_df_b |> 
-  select(year, plot, height_cm, total_c_kg, total_c_t_ha) |> 
+  select(year, plot, height_cm, crown_dia_m, total_c_kg, total_c_t_ha) |> 
+  mutate(site = "B",
+         crown_dia_m = crown_dia_m *100) |> 
   rename(plot_name = plot,
          total_tree_c_kg = total_c_kg,
-         "total_tree_c_Mg_ha" = total_c_t_ha) |> 
-    mutate(site = "B") |> 
+         "total_tree_c_Mg_ha" = total_c_t_ha,
+         crown_diameter_cm = crown_dia_m ) |> 
     relocate(site, .before = year)
 
 ```
 
-
 ```{r}
 # Creating a row binding to have the same columns but all the information
 full_df <- rbind(tidy_a, tidy_b)
+```
 
+
+Find the correlation of the variables of full_df
+![](tree_diagram.jpg)
+
+Assuming that the crown diamater(Crown Dia (m)) of site B is the same as the CD Chatting (m) of site A we will merge them to have more variables in our correlation model
+
+```{r}
+skim(full_df)
+```
+
+```{r}
+mangrove_recipe <- full_df |> 
+  recipe(total_tree_c_Mg_ha ~ .) |> 
+  step_integer(site, year, plot_name, zero_based = TRUE) |> 
+  prep() |> 
+  bake(new_data = NULL)
+
+```
+
+```{r, fig.align = 'center', out.width = "90%"}
+# Load the corrplot package
+library(corrplot)
+
+# Obtain correlation matrix
+tree_matrix <- cor(mangrove_recipe)
+
+# Make a correlation plot between the variables
+corrplot(tree_matrix, 
+         method = "shade", 
+         shade.col = NA, 
+         tl.col = "black", 
+         tl.srt = 45, 
+         addCoef.col = "black", 
+         cl.pos = "n", 
+         order = "original")
+
+```
+
+# Personal Analysis
+
+## Analysis for number of trees per plot
+```{r}
+#Creating a summary table for amout of tree´s per plot
+full_plots <- full_df |> 
+  group_by(site, year, plot_name) |> 
+  summarise(tree_count = n(),
+            "density (tree/m2)" = tree_count/154,
+            mean_carbon_Mg_ha = round(mean(total_tree_c_Mg_ha),6),
+            sd_carbon_Mg_ha = round(sd(total_tree_c_Mg_ha),10)) |> 
+  relocate(plot_name, .after = year)
+
+```
+
+```{r}
+ggplot(full_plots, aes(x =tree_count, y= sd_carbon_Mg_ha)) +
+  geom_jitter(aes(color = site))
+```
+
+```{r}
+
+ggplot(full_plots, aes(x =tree_count, y =mean_carbon_Mg_ha, color = site)) +
+  geom_point()
+
+```
+
+Creating a new vector for the Power Calculation
+```{r}
+new_vector <- c()
+for(i in 1:nrow(full_plots)) { 
+  sd = full_plots[[i,7]]
+  mean = full_plots[[i,6]]
+  d1 = as.numeric(sqrt(sd^2/2))
+  effect_size = mean / d1
+  power_test <- pwr.t.test(d = round(effect_size,2), 
+                           power = 0.90, 
+                           sig.level = 0.05,
+                           type="two.sample",
+                           alternative="two.sided")
+  new <- ceiling(power_test$n)             
+  new_vector <- c(new_vector, new)
+}
+
+```
+
+Adding the vector to the data frame
+```{r}
+full_plots <- cbind(full_plots, data.frame(power = new_vector)) |> 
+  relocate(power, .after = tree_count)
+```
+
+## Analysis for number of plots
+```{r}
+# Creating a summary table for number of plots
 summary_full_df <- full_df |> 
   group_by(site, year) |> 
   summarise(plot_count = length(unique(plot_name)),
-            tot_samples = n(),
-            mean_tree_height_cm = round(mean(height_cm),2),
+            tree_count = n(),
+            "density_trees_per_plot" = round(tree_count/plot_count,2),
             mean_tot_carbon_Mg_ha = round(mean(total_tree_c_Mg_ha),2),
-            sd_plant_size = round(sd(height_cm),2),
             sd_tot_carbon_Mg_ha = round(sd(total_tree_c_Mg_ha),2))
 ```
 
-Adding the A/R Methodological Tool
+```{r}
+ggplot(summary_full_df, aes(x= density_trees_per_plot, y =  sd_tot_carbon_Mg_ha )) +
+  geom_jitter(aes(color = year)) +
+  geom_smooth(method = "lm",
+              se = F)
+```
 
-$ n = \frac{N  \text{ }*  \text{ }tvalue^2  \text{ }* \text{ }(\epsilon\ w * s)^2)}{N  \text{ }*\text{ } E^2 + \text{ }tvalue^2  \text{ }* \text{ }\epsilon\ w * s^2} $
+Creating a new vector for the Power Calculation
+```{r}
+new_vector2 <- c()
+for(i in 1:nrow(summary_full_df)) { 
+  sd = summary_full_df[[i,7]]
+  mean = summary_full_df[[i,6]]
+  d1 = as.numeric(sqrt(sd^2/2))
+  effect_size = mean / d1
+  power_test <- pwr.t.test(d = round(effect_size,2), 
+                           power = 0.90, 
+                           sig.level = 0.05,
+                           type="two.sample",
+                           alternative="two.sided")
+  new <- ceiling(power_test$n)             
+  new_vector2 <- c(new_vector2, new)
+}
+```
+
+Adding the vector to the data frame
+```{r}
+summary_full_df <- cbind(summary_full_df, data.frame(power = new_vector2))
+```
 
 
-where:
-*n* = Number of sample plots required for estimation of biomass stocks within the project
-boundary; dimensionless.
-*N* = Total number of possible sample plots within the project boundary (i.e. the sampling
-space or the population); dimensionless.
-*tvalue* = Two-sided Student´s t-value, at infinite degrees of freedom, for the required confidence level; dimensionless. (Table -> 90% = 1.645)
-*w* = Relative weight of the area of stratum i (i.e. the area of the stratum i divided by the project.
-*E* = Acceptable margin of error (i.e. one-half the confidence interval) in estimation of biomass stock within the project boundary; t d.m. (or t d.m. ha-1).
+```{r}
+summary_full_df <- summary_full_df |> 
+  mutate(reduction = (1 - (power/tree_count))*100) |> 
+  relocate(power, .after = tree_count) |> 
+  relocate(reduction, .after = power)
+```
 
+
+Power Calculation Testing
+
+```{r}
+sd = summary_full_df[[10,7]]
+mean = summary_full_df[[10,6]]
+d1 = as.numeric(sqrt(sd^2/2))
+effect_size = mean / d1
+power_test <- pwr.t.test(d = round(effect_size,2), 
+                         power = 0.90, 
+                         sig.level = 0.05,
+                         type="two.sample",
+                         alternative="two.sided")
+
+print(power_test)
+
+new <- ceiling(power_test$n)             
+new_vector2 <- c(new_vector2, new)
+```
+
+
+
+
+#Adding the A/R Methodological Tool
+
+\$ n =
+\frac{N  \text{ }*  \text{ }tvalue^2  \text{ }* \text{ }(\epsilon\ w * s)^2)}{N  \text{ }*\text{ } E^2 + \text{ }tvalue^2  \text{ }* \text{ }\epsilon\ w * s^2}
+\$
+
+where: *n* = Number of sample plots required for estimation of biomass
+stocks within the project boundary; dimensionless. *N* = Total number of
+possible sample plots within the project boundary (i.e. the sampling
+space or the population); dimensionless. *tvalue* = Two-sided Student´s
+t-value, at infinite degrees of freedom, for the required confidence
+level; dimensionless. (Table -\> 90% = 1.645) *w* = Relative weight of
+the area of stratum i (i.e. the area of the stratum i divided by the
+project. *E* = Acceptable margin of error (i.e. one-half the confidence
+interval) in estimation of biomass stock within the project boundary; t
+d.m. (or t d.m. ha-1).
 
 ```{r}
 
@@ -198,7 +361,3 @@ sample_plots <- function(N, tvalue, w, s, E){
 }
 
 ```
-
-
-
-
