@@ -216,7 +216,8 @@ full_plots <- full_df |>
   summarise(tree_count = n(),
             "density (tree/m2)" = tree_count/154,
             mean_carbon_Mg_ha = round(mean(total_tree_c_Mg_ha),6),
-            sd_carbon_Mg_ha = round(sd(total_tree_c_Mg_ha),10)) |> 
+            sd_carbon_Mg_ha = round(sd(total_tree_c_Mg_ha),10),
+            std_error = sd_carbon_Mg_ha/sqrt(tree_count)) |> 
   relocate(plot_name, .after = year)
 
 ```
@@ -265,9 +266,10 @@ summary_full_df <- full_df |>
   group_by(site, year) |> 
   summarise(plot_count = length(unique(plot_name)),
             tree_count = n(),
-            "density_trees_per_plot" = round(tree_count/plot_count,2),
-            mean_tot_carbon_Mg_ha = round(mean(total_tree_c_Mg_ha),2),
-            sd_tot_carbon_Mg_ha = round(sd(total_tree_c_Mg_ha),2))
+            "density_trees_per_plot" = (tree_count/plot_count),
+            mean_tot_carbon_Mg_ha = mean(total_tree_c_Mg_ha),
+            sd_tot_carbon_Mg_ha = sd(total_tree_c_Mg_ha),
+            std_error = sd_tot_carbon_Mg_ha/sqrt(plot_count))
 ```
 
 ```{r}
@@ -304,7 +306,7 @@ summary_full_df <- cbind(summary_full_df, data.frame(power = new_vector2))
 ```{r}
 summary_full_df <- summary_full_df |> 
   mutate(reduction = (1 - (power/tree_count))*100) |> 
-  relocate(power, .after = tree_count) |> 
+  relocate(power, .after = plot_count) |> 
   relocate(reduction, .after = power)
 ```
 
@@ -329,6 +331,44 @@ new_vector2 <- c(new_vector2, new)
 ```
 
 
+Using the formula from Chat GPT
+
+Determine the sample size. A common formula is:
+
+n = (Z^2 * p * (1-p)) / E^2
+
+n is the sample size, 
+Z is the Z-score corresponding to a desired confidence level (for a 90% confidence level, Z=1.64).
+p is the estimated proportion of the population with the characteristic of interest (the proportion of trees with a certain amount of carbon sequestration)
+E is the desired margin of error.
+
+```{r}
+
+p = 4956
+E = .90
+
+n = (Z^2 * p * (1-p)) / E^2
+
+
+```
+
+
+Z = (x - μ) / σ
+x is the individual data point being compared
+μ (mu) is the population mean
+σ (sigma) is the population standard deviation
+
+```{r}
+
+x = 46
+μ = 0.01599679
+σ = 0.01599679
+
+Z = (x - μ) / σ
+
+
+```
+
 
 
 #Adding the A/R Methodological Tool
@@ -337,16 +377,15 @@ new_vector2 <- c(new_vector2, new)
 \frac{N  \text{ }*  \text{ }tvalue^2  \text{ }* \text{ }(\epsilon\ w * s)^2)}{N  \text{ }*\text{ } E^2 + \text{ }tvalue^2  \text{ }* \text{ }\epsilon\ w * s^2}
 \$
 
-where: *n* = Number of sample plots required for estimation of biomass
-stocks within the project boundary; dimensionless. *N* = Total number of
-possible sample plots within the project boundary (i.e. the sampling
-space or the population); dimensionless. *tvalue* = Two-sided Student´s
-t-value, at infinite degrees of freedom, for the required confidence
-level; dimensionless. (Table -\> 90% = 1.645) *w* = Relative weight of
-the area of stratum i (i.e. the area of the stratum i divided by the
-project. *E* = Acceptable margin of error (i.e. one-half the confidence
-interval) in estimation of biomass stock within the project boundary; t
-d.m. (or t d.m. ha-1).
+*n* = Number of sample plots required for estimation of biomass
+stocks within the project boundary; dimensionless. 
+*N* = Total number of possible sample plots within the project boundary (i.e. the sampling
+space or the population); dimensionless. 
+*tvalue* = Two-sided Student´s t-value, at infinite degrees of freedom, for the required confidence
+level; dimensionless. (Table -\> 90% = 1.645) 
+*w* = Relative weight of the area of stratum i (i.e. the area of the stratum i divided by the
+project. 
+*E* = Acceptable margin of error (i.e. one-half the confidence interval) in estimation of biomass stock within the project boundary.
 
 ```{r}
 
