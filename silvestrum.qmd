@@ -30,34 +30,43 @@ shown in the PDF.
         standard deviation of carbon per plot
     c.  Create a for loop that runs a power calculation per plot and
         shows the estimated number of trees required to maintain a 90%
-        power. This information is displayed in Table #3.
+        power. This information is displayed in Table #3
     d.  Create a graph (#2) that shows the effect of tree size variation
         (SD tree Diameter) on the recommended decrease of total number
         of trees to be measured per plot
     e.  Create a graph (#3) that shows how the mean of tree size
         (crown_diameter_cm) affects the standard deviation of carbon
         (Mg/ha) per plot
-    f.  Draw conclusions regarding the sampled trees.
+    f.  Draw conclusions regarding the sampled trees
 7.  Analyze and calculate the total number of plots per plantation year
     (project):
-    a.  Create a table (#4) grouping per plantation year
+    a.  Create a table that contains all the information for the
+        analysis
     b.  Create a for loop that runs a power calculation per plantation
         year and shows the estimated number of plots required to
-        maintain a 90% power. This information is displayed in Table #4.
-    c.  Create a for loop that runs the A/R Methodological Tool.
-    d.  Merge all results in a table (#5)
-    e.  Create a graph (#4) that shows the calculated number of plots
+        maintain a 90% power. This information is displayed in Table #4
+    c.  Create a table (#4) grouping per plantation year
+    d.  Create a for loop that runs the A/R Methodological Tool
+    e.  Merge all results in a table (#5)
+    f.  Create a graph (#4) that shows the calculated number of plots
         per method and per project
-    f.  Draw conclusions around the calculations required for estimating
+    g.  Draw conclusions around the calculations required for estimating
         biomass stocks and the number of plots required using different
-        methods.
+        methods
 
 To increase the amount of data available for the analysis i merge the
 data from both sites, I have made the assumption of combining the crown
 size diameter data from Site B with the CD Chatting in cm from site A.
 Hope this is right.
 
-![](tree_diagram.jpg){width="70%"}
+```{r echo=FALSE, fig.align='center', out.width="80%"}
+
+#![](tree_diagram.jpg)
+
+
+```
+
+![](tree_diagram.jpg){width="70%", fig.align = "center}
 
 ```{r, include = F}
 #1. Load the libraries
@@ -69,6 +78,7 @@ library(pwr)
 library(skimr)
 library(tidymodels)
 library(kableExtra)
+library(corrplot)
 
 ```
 
@@ -138,24 +148,29 @@ mangrove_recipe <- full_df |>
 
 ```
 
-#### Step 1, 2, 3: Done
+#### Step 1, 2, 3
 
-#### Step 4: Here is an overview of the complete data frame comprising information from both sites is provided below. Please note that only the first 10 records are presented in Table #1.
+##### Done in the internal side of the R Markdown document.
+
+#### Step 4
+
+##### Here is an overview of the complete data frame comprising information from both sites is provided below. Please note that only the first 10 records are presented in Table #1.
 
 ```{r, echo=F}
-head(full_df) |> 
-  kable(
-     align = "c",
-     format = "pipe",
-     caption = "Table 1. All sample trees (Site A+B)")
+
+full_df %>%
+  head(10) %>%
+  kable(format = "html", booktabs = TRUE, align = "c", caption = "Table 1. All sample trees (Site A+B)") %>%
+  kable_styling(full_width = FALSE)
+
 
 ```
 
-#### Step 5. Create a correlation Matrix to see the importance of the variables. 
+#### Step 5
+
+##### Create a correlation Matrix to see the importance of the variables.
 
 ```{r}
-# Load the corrplot package
-library(corrplot)
 
 # Obtain correlation matrix
 tree_matrix <- cor(mangrove_recipe)
@@ -176,7 +191,9 @@ As we can see in the matrix above the height of the tree is relevant
 `height_cm` with 0.46 of correlation but the `crown/diameter` column is
 even **greater with 0.86**
 
-#### Step 6. Run a power calculation to determine the number of trees needed per plot:
+#### Step 6
+
+##### Run a power calculation to determine the number of trees needed per plot:
 
 ```{r, echo = F}
 #6 Creating a summary table for amount of tree´s per plot
@@ -196,18 +213,27 @@ full_plots <- full_df |>
   relocate(plot_name, .after = year)
 ```
 
-#### Step 6.a Create a Table #2 with all the necessary stats information grouped by plot
+#### Step 6 (a)
+
+Create a Table #2 with all the necessary stats information grouped by
+plot
 
 ```{r, echo = F}
-head(full_plots) |> 
-  kable(
-     align = "c",
-     format = "pipe",
-     caption = "Table 2. General info of every plot")
+
+full_plots %>%
+  head(10) |> 
+  kable(booktabs = TRUE, 
+        align = "c", 
+        caption = "Table 2. General info of every plot") %>%
+  kable_styling(full_width = FALSE)
 
 ```
 
-#### Step 6.b Generate a graph (Graph #1) that visually represents the relationship between the number of trees counted per plot and the resulting standard deviation of carbon per plot.
+#### Step 6 (b)
+
+Generate a graph (Graph #1) that visually represents the relationship
+between the number of trees counted per plot and the resulting standard
+deviation of carbon per plot.
 
 ```{r, echo = FALSE}
 
@@ -225,7 +251,9 @@ increases, the divergence of the carbon calculations (SD) decreases
 significantly. However, it is important to establish a threshold for the
 optimal number of trees required to achieve an accurate estimate.
 
-#### Step 6.c Creating a new vector for the Power Calculation of number of trees
+#### Step 6 (c)
+
+Creating a new vector for the Power Calculation of number of trees
 
 ```{r}
 new_vector <- c()
@@ -265,6 +293,7 @@ full_plots %>%
   head(10) |> 
   kable(align = "c",
         caption = "Table 3. Estimated number of trees per plot") |> 
+   kable_styling(full_width = FALSE) |> 
   column_spec(5, background = "yellow") |> 
   column_spec(6, background = "lightgreen")
 
@@ -272,9 +301,12 @@ full_plots %>%
 
 As presented in the table above, the number of trees achieving a power
 level of 0.90 is indicated by the yellow highlighting, whereas the
-percentage reduction of samples being measured is indicated by the green highlighting.
+percentage reduction of samples being measured is indicated by the green
+highlighting.
 
-#### Step 6.d Create a graph (#2) 
+#### Step 6 (d)
+
+Create a graph (#2)
 
 ```{r, echo = F}
 
@@ -283,16 +315,23 @@ ggplot(full_plots, aes(x = sd_diameter, y = difference, color = site)) +
   labs(title = "Effect of tree size (Diameter) on sample tree reduction",
        subtitle = "Graph #2",
        x = "Std Dev of Diameter (cm)",
-       y = "Power decrease (%)") +
+       y = "Optimization (%)") +
   ylim(-700, 300) +
   scale_y_continuous(breaks = seq(-700, 300, by = 100))
 
 ```
 
-Graph #2 presents a relationship between variance in tree sizes and the difference between the estimated total trees by the power calculation and the actual number of samples. It suggests that plots with higher variance may require more tree samples, while those with lower variation may require fewer samples.
+Graph #2 presents a relationship between variance in tree sizes and the
+difference between the estimated total trees by the power calculation
+and the actual number of samples. It suggests that plots with higher
+variance may require more tree samples, while those with lower variation
+may require fewer samples.
 
+#### Step 6 (e)
 
-#### Step 6.e Create a graph (#3)
+Produce Graph #3 illustrating the relationship between the average size
+of trees (measured by crown diameter in centimeters) and the standard
+deviation of carbon (in Mg/ha) per plot.
 
 ```{r, echo = F}
 
@@ -305,9 +344,14 @@ ggplot(full_plots, aes(x = mean_diameter_cm, y = sd_carbon_Mg_ha, color = site )
 
 ```
 
-Graph #3 displays the impact of the mean tree size (crown diameter in centimeters), on the standard deviation of carbon (Mg/ha) per plot. The graph demonstrates a noticeable rise in the variability of carbon calculations as the size of trees increases.
+Graph #3 displays the impact of the mean tree size (crown diameter in
+centimeters), on the standard deviation of carbon (Mg/ha) per plot. The
+graph demonstrates a noticeable rise in the variability of carbon
+calculations as the size of trees increases.
 
-## Step 6.f Conclusions for calculating the amount of trees
+#### Step 6 (f)
+
+##### Conclusions for calculating the amount of trees
 
 1.  The power calculation in Table #3 suggests that a significant
     reduction in the number of trees measured is possible while still
@@ -337,7 +381,9 @@ Graph #3 displays the impact of the mean tree size (crown diameter in centimeter
     of sample selection is necessary to minimize variability in carbon
     measurements.
 
-#### Step 7 Analyze and calculate the total number of plots per plantation year (project):
+#### Step 7 (a)
+
+##### Analyze and calculate the total number of plots per plantation year (project):
 
 ```{r, echo = F}
 # Creating a summary table for number of plots
@@ -357,9 +403,11 @@ summary_full_df <- full_df |>
             std_error = sd_tot_carbon_Mg_ha/sqrt(plot_count))
 ```
 
-#### Step 7.b Creating a new vector for the Power Calculation
+#### Step 7 (b) 
 
-```{r, echo = F}
+##### Creating a new vector for the Power Calculation
+
+```{r}
 new_vector2 <- c()
 
 for(i in 1:nrow(summary_full_df)) { 
@@ -385,19 +433,24 @@ summary_full_df <- summary_full_df |>
 
 ```
 
-#### Step 7.a Create a table (#4) grouping per plantation year
+#### Step 7 (c) 
+
+##### Create a table (#4) grouping per plantation year
 
 ```{r, echo=F}
 summary_full_df %>%
   head(10) |> 
   kable(align = "c",
         caption = "Table 4. Estimated number of sample plots per project") |> 
+   kable_styling(full_width = FALSE) |> 
   column_spec(3, background = "lightpink") |> 
   column_spec(4, background = "lightblue")
 
 ```
 
-Table 4 displays the actual number of plots per project highlighted in pink as well as the estimated number of sample plots calculated using the power calculation method in blue.
+Table 4 displays the actual number of plots per project highlighted in
+pink as well as the estimated number of sample plots calculated using
+the power calculation method in blue.
 
 ```{r, include= F}
 # Power Calculation Testing
@@ -418,9 +471,11 @@ Table 4 displays the actual number of plots per project highlighted in pink as w
 
 ```
 
-#### Step 7.c Create a for loop that runs the A/R Methodological Tool.
+#### Step 7 (d) 
 
-$n =\frac{N \text{ }* \text{ }tvalue^2 \text{ }* \text{ }(\epsilon\ w * s)^2)}{N \text{ }*\text{ } E^2 + \text{ }tvalue^2 \text{ }* \text{ }\epsilon\ w * s^2}$
+##### Create a for loop that runs the A/R Methodological Tool.
+
+$$n =\frac{N \text{ }* \text{ }tvalue^2 \text{ }* \text{ }(\epsilon\ w * s)^2)}{N \text{ }*\text{ } E^2 + \text{ }tvalue^2 \text{ }* \text{ }\epsilon\ w * s^2}$$
 
 *n* = Number of sample plots required for estimation of biomass stocks
 within the project boundary; dimensionless.
@@ -470,20 +525,26 @@ summary_full_df <- summary_full_df |>
   relocate(ar_tool, .after = power)
 ```
 
-#### Step 7.d Merge all results in a table (#5)
+#### Step 7 (e)
+
+##### Merge all results in a table (#5)
 
 ```{r, echo = F}
 #Creating a kable table to show the first lines of summary_full_df
+
 summary_full_df %>%
-  head(10) |> 
-  kable(align = "c",
-        caption = "Table 5. Number of sample plots by defined by each method") |> 
-  column_spec(3, background = "lightblue") |> 
-  column_spec(4, background = "lightyellow") |> 
-  column_spec(5, background = "lightgreen")
+  head(10) %>%
+  kbl(booktabs = TRUE, align = "c", caption = "Table 5. Number of sample plots by defined by each method") %>%
+  kable_styling(full_width = FALSE) %>%
+  column_spec(3, background = "lightblue") %>%
+  column_spec(4, background = "lightgreen") %>%
+  column_spec(5, background = "pink")
+
 ```
 
-#### Step 7.e Create a graph (#4) that shows the calculated number of plots per method and per project
+#### Step 7 (f)
+
+##### Create a graph (#4) that shows the calculated number of plots per method and per project
 
 ```{r, echo = F}
 # Creating a graph to see the three methods result in one graph
@@ -493,7 +554,7 @@ summary_full_df |>
   geom_point(aes(y = power, color = "power")) +
   geom_point(aes(y = plot_count, color = "real")) +
   geom_point(aes(y = ar_tool, color = "A/R Tool")) +
-  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.8)) +
   labs(title = "Estimated number of plots per project",
        subtitle = "Graph #4",
        x = "Plantation Year",
@@ -502,7 +563,9 @@ summary_full_df |>
 
 ```
 
-## Step 7.f Conclusions for the calculations of amount of plots:
+#### Step 7 (f) 
+
+##### Conclusions for the calculations of amount of plots:
 
 1.  The graph #4 illustrates the distribution of plantation years and
     the number of plots utilizing each method. The "real" figures
