@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Javier Patrón">
-<meta name="dcterms.date" content="2023-02-23">
+<meta name="dcterms.date" content="2023-02-25">
 
 <title>Silvestrum Assignment</title>
 <style>
@@ -131,7 +131,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">February 23, 2023</p>
+      <p class="date">February 25, 2023</p>
     </div>
   </div>
   
@@ -141,7 +141,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </header>
 
-<p>This are the steps I have followed which some code and steps are not shown in the PDF.</p>
+<section id="introduccion" class="level2">
+<h2 class="anchored" data-anchor-id="introduccion">Introduccion</h2>
+<p>This assignment aims to estimate the required number of plots per project based on tree carbon variance by analyzing the data from two sites (A and B). The analysis involved data cleaning and processing, creation of a correlation matrix, and power calculations to deepen the understanding of the correlation between variables. Tables and graphs were created to visualize the findings and draw conclusions about the sampled trees and plots. The A/R methodological Tool was used to measure and compare the number of plots required per plantation year. Please note that the preliminary results presented in this report require further review and fine-tuning for real samples in the field.</p>
+<section id="steps" class="level4">
+<h4 class="anchored" data-anchor-id="steps">Steps:</h4>
 <ol type="1">
 <li>Load the necessary libraries</li>
 <li>Read the CSV files</li>
@@ -168,7 +172,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Draw conclusions around the calculations required for estimating biomass stocks and the number of plots required using different methods</li>
 </ol></li>
 </ol>
-<p>To increase the amount of data available for the analysis i merge the data from both sites, I have made the assumption of combining the crown size diameter data from Site B with the CD Chatting in cm from site A. Hope this is right.</p>
+<p>Notes:</p>
+<p>1) To increase the amount of data available for the analysis i merge the data from both sites, I have made the assumption of combining the crown size diameter data from Site B with the CD Chatting in cm from site A. Hope this is right.</p>
+<p>2) The PDF report only shows some of the code and steps to perform the analysis. The full details of the analysis, including the code and steps, can be found in the original script file (.Rmd).”</p>
 <div class="cell" data-layout-align="center">
 
 </div>
@@ -203,15 +209,21 @@ dbl (16): year, d30, Height (m), Height (cm), Crown Dia (m), Crown Dia (cm),...
 
 </div>
 <div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>tidy_b <span class="ot">&lt;-</span> tidy_b <span class="sc">%&gt;%</span> </span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">new_plot_name =</span> <span class="fu">str_extract</span>(plot_name, <span class="st">"(?&lt;=Sample Plot #</span><span class="sc">\\</span><span class="st">s)</span><span class="sc">\\</span><span class="st">d+"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">relocate</span>(new_plot_name, <span class="at">.after =</span> plot_name)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
 
 </div>
 <div class="cell">
 
 </div>
+</section>
 <section id="step-1-2-3" class="level4">
 <h4 class="anchored" data-anchor-id="step-1-2-3">Step 1, 2, 3</h4>
-<section id="done-in-the-internal-side-of-the-r-markdown-document." class="level5">
-<h5 class="anchored" data-anchor-id="done-in-the-internal-side-of-the-r-markdown-document.">Done in the internal side of the R Markdown document.</h5>
+<section id="these-steps-were-completed-within-the-environment-of-the-r-markdown." class="level5">
+<h5 class="anchored" data-anchor-id="these-steps-were-completed-within-the-environment-of-the-r-markdown.">These steps were completed within the environment of the R Markdown.</h5>
 </section>
 </section>
 <section id="step-4" class="level4">
@@ -228,6 +240,7 @@ dbl (16): year, d30, Height (m), Height (cm), Crown Dia (m), Crown Dia (cm),...
    <th style="text-align:center;"> site </th>
    <th style="text-align:center;"> year </th>
    <th style="text-align:center;"> plot_name </th>
+   <th style="text-align:center;"> full_plot_name </th>
    <th style="text-align:center;"> height_cm </th>
    <th style="text-align:center;"> crown_diameter_cm </th>
    <th style="text-align:center;"> total_tree_c_kg </th>
@@ -238,7 +251,8 @@ dbl (16): year, d30, Height (m), Height (cm), Crown Dia (m), Crown Dia (cm),...
   <tr>
    <td style="text-align:center;"> A </td>
    <td style="text-align:center;"> 2017 </td>
-   <td style="text-align:center;"> 8 </td>
+   <td style="text-align:center;"> Sample_Plot#08 </td>
+   <td style="text-align:center;"> siteA_2017_plot_08 </td>
    <td style="text-align:center;"> 112 </td>
    <td style="text-align:center;"> 58 </td>
    <td style="text-align:center;"> 0.415 </td>
@@ -247,7 +261,8 @@ dbl (16): year, d30, Height (m), Height (cm), Crown Dia (m), Crown Dia (cm),...
   <tr>
    <td style="text-align:center;"> A </td>
    <td style="text-align:center;"> 2010 </td>
-   <td style="text-align:center;"> 5 </td>
+   <td style="text-align:center;"> Sample_Plot#05 </td>
+   <td style="text-align:center;"> siteA_2010_plot_05 </td>
    <td style="text-align:center;"> 217 </td>
    <td style="text-align:center;"> 335 </td>
    <td style="text-align:center;"> 17.639 </td>
@@ -256,7 +271,8 @@ dbl (16): year, d30, Height (m), Height (cm), Crown Dia (m), Crown Dia (cm),...
   <tr>
    <td style="text-align:center;"> A </td>
    <td style="text-align:center;"> 2017 </td>
-   <td style="text-align:center;"> 19 </td>
+   <td style="text-align:center;"> Sample_Plot#19 </td>
+   <td style="text-align:center;"> siteA_2017_plot_19 </td>
    <td style="text-align:center;"> 211 </td>
    <td style="text-align:center;"> 63 </td>
    <td style="text-align:center;"> 0.495 </td>
@@ -265,7 +281,8 @@ dbl (16): year, d30, Height (m), Height (cm), Crown Dia (m), Crown Dia (cm),...
   <tr>
    <td style="text-align:center;"> A </td>
    <td style="text-align:center;"> 2017 </td>
-   <td style="text-align:center;"> 19 </td>
+   <td style="text-align:center;"> Sample_Plot#19 </td>
+   <td style="text-align:center;"> siteA_2017_plot_19 </td>
    <td style="text-align:center;"> 209 </td>
    <td style="text-align:center;"> 102 </td>
    <td style="text-align:center;"> 1.374 </td>
@@ -274,7 +291,8 @@ dbl (16): year, d30, Height (m), Height (cm), Crown Dia (m), Crown Dia (cm),...
   <tr>
    <td style="text-align:center;"> A </td>
    <td style="text-align:center;"> 2017 </td>
-   <td style="text-align:center;"> 17 </td>
+   <td style="text-align:center;"> Sample_Plot#17 </td>
+   <td style="text-align:center;"> siteA_2017_plot_17 </td>
    <td style="text-align:center;"> 207 </td>
    <td style="text-align:center;"> 52 </td>
    <td style="text-align:center;"> 0.324 </td>
@@ -283,7 +301,8 @@ dbl (16): year, d30, Height (m), Height (cm), Crown Dia (m), Crown Dia (cm),...
   <tr>
    <td style="text-align:center;"> A </td>
    <td style="text-align:center;"> 2017 </td>
-   <td style="text-align:center;"> 19 </td>
+   <td style="text-align:center;"> Sample_Plot#19 </td>
+   <td style="text-align:center;"> siteA_2017_plot_19 </td>
    <td style="text-align:center;"> 201 </td>
    <td style="text-align:center;"> 44 </td>
    <td style="text-align:center;"> 0.230 </td>
@@ -292,7 +311,8 @@ dbl (16): year, d30, Height (m), Height (cm), Crown Dia (m), Crown Dia (cm),...
   <tr>
    <td style="text-align:center;"> A </td>
    <td style="text-align:center;"> 2010 </td>
-   <td style="text-align:center;"> 2 </td>
+   <td style="text-align:center;"> Sample_Plot#02 </td>
+   <td style="text-align:center;"> siteA_2010_plot_02 </td>
    <td style="text-align:center;"> 200 </td>
    <td style="text-align:center;"> 339 </td>
    <td style="text-align:center;"> 18.151 </td>
@@ -301,7 +321,8 @@ dbl (16): year, d30, Height (m), Height (cm), Crown Dia (m), Crown Dia (cm),...
   <tr>
    <td style="text-align:center;"> A </td>
    <td style="text-align:center;"> 2010 </td>
-   <td style="text-align:center;"> 5 </td>
+   <td style="text-align:center;"> Sample_Plot#05 </td>
+   <td style="text-align:center;"> siteA_2010_plot_05 </td>
    <td style="text-align:center;"> 199 </td>
    <td style="text-align:center;"> 160 </td>
    <td style="text-align:center;"> 3.640 </td>
@@ -310,7 +331,8 @@ dbl (16): year, d30, Height (m), Height (cm), Crown Dia (m), Crown Dia (cm),...
   <tr>
    <td style="text-align:center;"> A </td>
    <td style="text-align:center;"> 2017 </td>
-   <td style="text-align:center;"> 19 </td>
+   <td style="text-align:center;"> Sample_Plot#19 </td>
+   <td style="text-align:center;"> siteA_2017_plot_19 </td>
    <td style="text-align:center;"> 198 </td>
    <td style="text-align:center;"> 140 </td>
    <td style="text-align:center;"> 2.735 </td>
@@ -319,7 +341,8 @@ dbl (16): year, d30, Height (m), Height (cm), Crown Dia (m), Crown Dia (cm),...
   <tr>
    <td style="text-align:center;"> A </td>
    <td style="text-align:center;"> 2017 </td>
-   <td style="text-align:center;"> 16 </td>
+   <td style="text-align:center;"> Sample_Plot#16 </td>
+   <td style="text-align:center;"> siteA_2017_plot_16 </td>
    <td style="text-align:center;"> 197 </td>
    <td style="text-align:center;"> 80 </td>
    <td style="text-align:center;"> 0.826 </td>
@@ -337,20 +360,20 @@ dbl (16): year, d30, Height (m), Height (cm), Crown Dia (m), Crown Dia (cm),...
 <section id="create-a-correlation-matrix-to-see-the-importance-of-the-variables." class="level5">
 <h5 class="anchored" data-anchor-id="create-a-correlation-matrix-to-see-the-importance-of-the-variables.">Create a correlation Matrix to see the importance of the variables.</h5>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Obtain correlation matrix</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>tree_matrix <span class="ot">&lt;-</span> <span class="fu">cor</span>(mangrove_recipe)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Make a correlation plot between the variables</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">corrplot</span>(tree_matrix, </span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">method =</span> <span class="st">"shade"</span>, </span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">shade.col =</span> <span class="cn">NA</span>, </span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">tl.col =</span> <span class="st">"black"</span>, </span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>         <span class="at">tl.srt =</span> <span class="dv">45</span>, </span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>         <span class="at">addCoef.col =</span> <span class="st">"black"</span>, </span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>         <span class="at">cl.pos =</span> <span class="st">"n"</span>, </span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>         <span class="at">order =</span> <span class="st">"original"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Obtain correlation matrix</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>tree_matrix <span class="ot">&lt;-</span> <span class="fu">cor</span>(mangrove_recipe)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Make a correlation plot between the variables</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">corrplot</span>(tree_matrix, </span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">method =</span> <span class="st">"shade"</span>, </span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">shade.col =</span> <span class="cn">NA</span>, </span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">tl.col =</span> <span class="st">"black"</span>, </span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>         <span class="at">tl.srt =</span> <span class="dv">45</span>, </span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>         <span class="at">addCoef.col =</span> <span class="st">"black"</span>, </span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>         <span class="at">cl.pos =</span> <span class="st">"n"</span>, </span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>         <span class="at">order =</span> <span class="st">"original"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="silvestrum_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
+<p><img src="silvestrum_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>As we can see in the matrix above the height of the tree is relevant <code>height_cm</code> with 0.46 of correlation but the <code>crown/diameter</code> column is even <strong>greater with 0.86</strong></p>
@@ -398,7 +421,7 @@ dbl (16): year, d30, Height (m), Height (cm), Crown Dia (m), Crown Dia (cm),...
   <tr>
    <td style="text-align:center;"> A </td>
    <td style="text-align:center;"> 2010 </td>
-   <td style="text-align:center;"> 1 </td>
+   <td style="text-align:center;"> Sample_Plot#01 </td>
    <td style="text-align:center;"> 86 </td>
    <td style="text-align:center;"> 0.5584416 </td>
    <td style="text-align:center;"> 86.17442 </td>
@@ -414,7 +437,7 @@ dbl (16): year, d30, Height (m), Height (cm), Crown Dia (m), Crown Dia (cm),...
   <tr>
    <td style="text-align:center;"> A </td>
    <td style="text-align:center;"> 2010 </td>
-   <td style="text-align:center;"> 2 </td>
+   <td style="text-align:center;"> Sample_Plot#02 </td>
    <td style="text-align:center;"> 122 </td>
    <td style="text-align:center;"> 0.7922078 </td>
    <td style="text-align:center;"> 95.46721 </td>
@@ -430,7 +453,7 @@ dbl (16): year, d30, Height (m), Height (cm), Crown Dia (m), Crown Dia (cm),...
   <tr>
    <td style="text-align:center;"> A </td>
    <td style="text-align:center;"> 2010 </td>
-   <td style="text-align:center;"> 3 </td>
+   <td style="text-align:center;"> Sample_Plot#03 </td>
    <td style="text-align:center;"> 110 </td>
    <td style="text-align:center;"> 0.7142857 </td>
    <td style="text-align:center;"> 91.60000 </td>
@@ -446,7 +469,7 @@ dbl (16): year, d30, Height (m), Height (cm), Crown Dia (m), Crown Dia (cm),...
   <tr>
    <td style="text-align:center;"> A </td>
    <td style="text-align:center;"> 2010 </td>
-   <td style="text-align:center;"> 4 </td>
+   <td style="text-align:center;"> Sample_Plot#04 </td>
    <td style="text-align:center;"> 96 </td>
    <td style="text-align:center;"> 0.6233766 </td>
    <td style="text-align:center;"> 75.52083 </td>
@@ -462,7 +485,7 @@ dbl (16): year, d30, Height (m), Height (cm), Crown Dia (m), Crown Dia (cm),...
   <tr>
    <td style="text-align:center;"> A </td>
    <td style="text-align:center;"> 2010 </td>
-   <td style="text-align:center;"> 5 </td>
+   <td style="text-align:center;"> Sample_Plot#05 </td>
    <td style="text-align:center;"> 84 </td>
    <td style="text-align:center;"> 0.5454545 </td>
    <td style="text-align:center;"> 110.82143 </td>
@@ -478,7 +501,7 @@ dbl (16): year, d30, Height (m), Height (cm), Crown Dia (m), Crown Dia (cm),...
   <tr>
    <td style="text-align:center;"> A </td>
    <td style="text-align:center;"> 2010 </td>
-   <td style="text-align:center;"> 6 </td>
+   <td style="text-align:center;"> Sample_Plot#06 </td>
    <td style="text-align:center;"> 107 </td>
    <td style="text-align:center;"> 0.6948052 </td>
    <td style="text-align:center;"> 77.53271 </td>
@@ -494,7 +517,7 @@ dbl (16): year, d30, Height (m), Height (cm), Crown Dia (m), Crown Dia (cm),...
   <tr>
    <td style="text-align:center;"> A </td>
    <td style="text-align:center;"> 2010 </td>
-   <td style="text-align:center;"> 7 </td>
+   <td style="text-align:center;"> Sample_Plot#07 </td>
    <td style="text-align:center;"> 141 </td>
    <td style="text-align:center;"> 0.9155844 </td>
    <td style="text-align:center;"> 76.63121 </td>
@@ -510,7 +533,39 @@ dbl (16): year, d30, Height (m), Height (cm), Crown Dia (m), Crown Dia (cm),...
   <tr>
    <td style="text-align:center;"> A </td>
    <td style="text-align:center;"> 2017 </td>
-   <td style="text-align:center;"> 12 </td>
+   <td style="text-align:center;"> Sample_Plot#08 </td>
+   <td style="text-align:center;"> 203 </td>
+   <td style="text-align:center;"> 1.3181818 </td>
+   <td style="text-align:center;"> 101.35961 </td>
+   <td style="text-align:center;"> 13.85690 </td>
+   <td style="text-align:center;"> 55.50739 </td>
+   <td style="text-align:center;"> 25.61353 </td>
+   <td style="text-align:center;"> 0.4798522 </td>
+   <td style="text-align:center;"> 1.3159980 </td>
+   <td style="text-align:center;"> 0.0311379 </td>
+   <td style="text-align:center;"> 0.0854794 </td>
+   <td style="text-align:center;"> 0.0059995 </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;"> A </td>
+   <td style="text-align:center;"> 2017 </td>
+   <td style="text-align:center;"> Sample_Plot#09 </td>
+   <td style="text-align:center;"> 202 </td>
+   <td style="text-align:center;"> 1.3116883 </td>
+   <td style="text-align:center;"> 104.97525 </td>
+   <td style="text-align:center;"> 15.69816 </td>
+   <td style="text-align:center;"> 60.95545 </td>
+   <td style="text-align:center;"> 20.31035 </td>
+   <td style="text-align:center;"> 0.5216238 </td>
+   <td style="text-align:center;"> 0.6412533 </td>
+   <td style="text-align:center;"> 0.0338564 </td>
+   <td style="text-align:center;"> 0.0416694 </td>
+   <td style="text-align:center;"> 0.0029319 </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;"> A </td>
+   <td style="text-align:center;"> 2017 </td>
+   <td style="text-align:center;"> Sample_Plot#12 </td>
    <td style="text-align:center;"> 298 </td>
    <td style="text-align:center;"> 1.9350649 </td>
    <td style="text-align:center;"> 96.80872 </td>
@@ -523,38 +578,6 @@ dbl (16): year, d30, Height (m), Height (cm), Crown Dia (m), Crown Dia (cm),...
    <td style="text-align:center;"> 0.0132004 </td>
    <td style="text-align:center;"> 0.0007647 </td>
   </tr>
-  <tr>
-   <td style="text-align:center;"> A </td>
-   <td style="text-align:center;"> 2017 </td>
-   <td style="text-align:center;"> 13 </td>
-   <td style="text-align:center;"> 183 </td>
-   <td style="text-align:center;"> 1.1883117 </td>
-   <td style="text-align:center;"> 84.13115 </td>
-   <td style="text-align:center;"> 15.64911 </td>
-   <td style="text-align:center;"> 54.10929 </td>
-   <td style="text-align:center;"> 16.69504 </td>
-   <td style="text-align:center;"> 0.3955847 </td>
-   <td style="text-align:center;"> 0.2680318 </td>
-   <td style="text-align:center;"> 0.0257268 </td>
-   <td style="text-align:center;"> 0.0174041 </td>
-   <td style="text-align:center;"> 0.0012865 </td>
-  </tr>
-  <tr>
-   <td style="text-align:center;"> A </td>
-   <td style="text-align:center;"> 2017 </td>
-   <td style="text-align:center;"> 14 </td>
-   <td style="text-align:center;"> 160 </td>
-   <td style="text-align:center;"> 1.0389610 </td>
-   <td style="text-align:center;"> 108.31875 </td>
-   <td style="text-align:center;"> 15.53991 </td>
-   <td style="text-align:center;"> 65.83750 </td>
-   <td style="text-align:center;"> 16.41823 </td>
-   <td style="text-align:center;"> 0.5805625 </td>
-   <td style="text-align:center;"> 0.3058017 </td>
-   <td style="text-align:center;"> 0.0377312 </td>
-   <td style="text-align:center;"> 0.0198459 </td>
-   <td style="text-align:center;"> 0.0015690 </td>
-  </tr>
 </tbody>
 </table>
 
@@ -566,7 +589,7 @@ dbl (16): year, d30, Height (m), Height (cm), Crown Dia (m), Crown Dia (cm),...
 <p>Generate a graph (Graph #1) that visually represents the relationship between the number of trees counted per plot and the resulting standard deviation of carbon per plot.</p>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="silvestrum_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
+<p><img src="silvestrum_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>The graph (#1) illustrates that as the number of sampled trees increases, the divergence of the carbon calculations (SD) decreases significantly. However, it is important to establish a threshold for the optimal number of trees required to achieve an accurate estimate.</p>
@@ -575,20 +598,20 @@ dbl (16): year, d30, Height (m), Height (cm), Crown Dia (m), Crown Dia (cm),...
 <h4 class="anchored" data-anchor-id="step-6-c">Step 6 (c)</h4>
 <p>Creating a new vector for the Power Calculation of number of trees</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>new_vector <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(full_plots)) { </span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  sd <span class="ot">=</span> full_plots<span class="sc">$</span>sd_carbon_Mg_ha[[i]]</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  mean <span class="ot">=</span> full_plots<span class="sc">$</span>mean_carbon_Mg_ha[[i]]</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  d1 <span class="ot">=</span> <span class="fu">as.numeric</span>(<span class="fu">sqrt</span>(sd<span class="sc">^</span><span class="dv">2</span><span class="sc">/</span><span class="dv">2</span>))</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  effect_size <span class="ot">=</span> mean <span class="sc">/</span> d1</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  power_test <span class="ot">&lt;-</span> <span class="fu">pwr.t.test</span>(<span class="at">d =</span> <span class="fu">round</span>(effect_size,<span class="dv">2</span>), </span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>                           <span class="at">power =</span> <span class="fl">0.90</span>, </span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>                           <span class="at">sig.level =</span> <span class="fl">0.05</span>,</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>                           <span class="at">type=</span><span class="st">"two.sample"</span>,</span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>                           <span class="at">alternative=</span><span class="st">"two.sided"</span>)</span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  new <span class="ot">&lt;-</span> <span class="fu">round</span>(power_test<span class="sc">$</span>n,<span class="dv">1</span>)            </span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  new_vector <span class="ot">&lt;-</span> <span class="fu">c</span>(new_vector, new)</span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>new_vector <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(full_plots)) { </span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  sd <span class="ot">=</span> full_plots<span class="sc">$</span>sd_carbon_Mg_ha[[i]]</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  mean <span class="ot">=</span> full_plots<span class="sc">$</span>mean_carbon_Mg_ha[[i]]</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  d1 <span class="ot">=</span> <span class="fu">as.numeric</span>(<span class="fu">sqrt</span>(sd<span class="sc">^</span><span class="dv">2</span><span class="sc">/</span><span class="dv">2</span>))</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  effect_size <span class="ot">=</span> mean <span class="sc">/</span> d1</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  power_test <span class="ot">&lt;-</span> <span class="fu">pwr.t.test</span>(<span class="at">d =</span> <span class="fu">round</span>(effect_size,<span class="dv">2</span>), </span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>                           <span class="at">power =</span> <span class="fl">0.90</span>, </span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>                           <span class="at">sig.level =</span> <span class="fl">0.05</span>,</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>                           <span class="at">type=</span><span class="st">"two.sample"</span>,</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>                           <span class="at">alternative=</span><span class="st">"two.sided"</span>)</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  new <span class="ot">&lt;-</span> <span class="fu">round</span>(power_test<span class="sc">$</span>n,<span class="dv">1</span>)            </span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  new_vector <span class="ot">&lt;-</span> <span class="fu">c</span>(new_vector, new)</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 
@@ -625,7 +648,7 @@ dbl (16): year, d30, Height (m), Height (cm), Crown Dia (m), Crown Dia (cm),...
   <tr>
    <td style="text-align:center;"> A </td>
    <td style="text-align:center;"> 2010 </td>
-   <td style="text-align:center;"> 1 </td>
+   <td style="text-align:center;"> Sample_Plot#01 </td>
    <td style="text-align:center;"> 86 </td>
    <td style="text-align:center;background-color: yellow !important;"> 14.5 </td>
    <td style="text-align:center;background-color: lightgreen !important;"> 83.1 </td>
@@ -643,7 +666,7 @@ dbl (16): year, d30, Height (m), Height (cm), Crown Dia (m), Crown Dia (cm),...
   <tr>
    <td style="text-align:center;"> A </td>
    <td style="text-align:center;"> 2010 </td>
-   <td style="text-align:center;"> 2 </td>
+   <td style="text-align:center;"> Sample_Plot#02 </td>
    <td style="text-align:center;"> 122 </td>
    <td style="text-align:center;background-color: yellow !important;"> 46.4 </td>
    <td style="text-align:center;background-color: lightgreen !important;"> 62.0 </td>
@@ -661,7 +684,7 @@ dbl (16): year, d30, Height (m), Height (cm), Crown Dia (m), Crown Dia (cm),...
   <tr>
    <td style="text-align:center;"> A </td>
    <td style="text-align:center;"> 2010 </td>
-   <td style="text-align:center;"> 3 </td>
+   <td style="text-align:center;"> Sample_Plot#03 </td>
    <td style="text-align:center;"> 110 </td>
    <td style="text-align:center;background-color: yellow !important;"> 21.2 </td>
    <td style="text-align:center;background-color: lightgreen !important;"> 80.7 </td>
@@ -679,7 +702,7 @@ dbl (16): year, d30, Height (m), Height (cm), Crown Dia (m), Crown Dia (cm),...
   <tr>
    <td style="text-align:center;"> A </td>
    <td style="text-align:center;"> 2010 </td>
-   <td style="text-align:center;"> 4 </td>
+   <td style="text-align:center;"> Sample_Plot#04 </td>
    <td style="text-align:center;"> 96 </td>
    <td style="text-align:center;background-color: yellow !important;"> 15.1 </td>
    <td style="text-align:center;background-color: lightgreen !important;"> 84.3 </td>
@@ -697,7 +720,7 @@ dbl (16): year, d30, Height (m), Height (cm), Crown Dia (m), Crown Dia (cm),...
   <tr>
    <td style="text-align:center;"> A </td>
    <td style="text-align:center;"> 2010 </td>
-   <td style="text-align:center;"> 5 </td>
+   <td style="text-align:center;"> Sample_Plot#05 </td>
    <td style="text-align:center;"> 84 </td>
    <td style="text-align:center;background-color: yellow !important;"> 31.5 </td>
    <td style="text-align:center;background-color: lightgreen !important;"> 62.5 </td>
@@ -715,7 +738,7 @@ dbl (16): year, d30, Height (m), Height (cm), Crown Dia (m), Crown Dia (cm),...
   <tr>
    <td style="text-align:center;"> A </td>
    <td style="text-align:center;"> 2010 </td>
-   <td style="text-align:center;"> 6 </td>
+   <td style="text-align:center;"> Sample_Plot#06 </td>
    <td style="text-align:center;"> 107 </td>
    <td style="text-align:center;background-color: yellow !important;"> 14.7 </td>
    <td style="text-align:center;background-color: lightgreen !important;"> 86.3 </td>
@@ -733,7 +756,7 @@ dbl (16): year, d30, Height (m), Height (cm), Crown Dia (m), Crown Dia (cm),...
   <tr>
    <td style="text-align:center;"> A </td>
    <td style="text-align:center;"> 2010 </td>
-   <td style="text-align:center;"> 7 </td>
+   <td style="text-align:center;"> Sample_Plot#07 </td>
    <td style="text-align:center;"> 141 </td>
    <td style="text-align:center;background-color: yellow !important;"> 39.4 </td>
    <td style="text-align:center;background-color: lightgreen !important;"> 72.1 </td>
@@ -751,7 +774,43 @@ dbl (16): year, d30, Height (m), Height (cm), Crown Dia (m), Crown Dia (cm),...
   <tr>
    <td style="text-align:center;"> A </td>
    <td style="text-align:center;"> 2017 </td>
-   <td style="text-align:center;"> 12 </td>
+   <td style="text-align:center;"> Sample_Plot#08 </td>
+   <td style="text-align:center;"> 203 </td>
+   <td style="text-align:center;background-color: yellow !important;"> 78.7 </td>
+   <td style="text-align:center;background-color: lightgreen !important;"> 61.2 </td>
+   <td style="text-align:center;"> 1.3181818 </td>
+   <td style="text-align:center;"> 101.35961 </td>
+   <td style="text-align:center;"> 13.85690 </td>
+   <td style="text-align:center;"> 55.50739 </td>
+   <td style="text-align:center;"> 25.61353 </td>
+   <td style="text-align:center;"> 0.4798522 </td>
+   <td style="text-align:center;"> 1.3159980 </td>
+   <td style="text-align:center;"> 0.0311379 </td>
+   <td style="text-align:center;"> 0.0854794 </td>
+   <td style="text-align:center;"> 0.0059995 </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;"> A </td>
+   <td style="text-align:center;"> 2017 </td>
+   <td style="text-align:center;"> Sample_Plot#09 </td>
+   <td style="text-align:center;"> 202 </td>
+   <td style="text-align:center;background-color: yellow !important;"> 16.9 </td>
+   <td style="text-align:center;background-color: lightgreen !important;"> 91.6 </td>
+   <td style="text-align:center;"> 1.3116883 </td>
+   <td style="text-align:center;"> 104.97525 </td>
+   <td style="text-align:center;"> 15.69816 </td>
+   <td style="text-align:center;"> 60.95545 </td>
+   <td style="text-align:center;"> 20.31035 </td>
+   <td style="text-align:center;"> 0.5216238 </td>
+   <td style="text-align:center;"> 0.6412533 </td>
+   <td style="text-align:center;"> 0.0338564 </td>
+   <td style="text-align:center;"> 0.0416694 </td>
+   <td style="text-align:center;"> 0.0029319 </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;"> A </td>
+   <td style="text-align:center;"> 2017 </td>
+   <td style="text-align:center;"> Sample_Plot#12 </td>
    <td style="text-align:center;"> 298 </td>
    <td style="text-align:center;background-color: yellow !important;"> 5.4 </td>
    <td style="text-align:center;background-color: lightgreen !important;"> 98.2 </td>
@@ -765,42 +824,6 @@ dbl (16): year, d30, Height (m), Height (cm), Crown Dia (m), Crown Dia (cm),...
    <td style="text-align:center;"> 0.0208591 </td>
    <td style="text-align:center;"> 0.0132004 </td>
    <td style="text-align:center;"> 0.0007647 </td>
-  </tr>
-  <tr>
-   <td style="text-align:center;"> A </td>
-   <td style="text-align:center;"> 2017 </td>
-   <td style="text-align:center;"> 13 </td>
-   <td style="text-align:center;"> 183 </td>
-   <td style="text-align:center;background-color: yellow !important;"> 6.0 </td>
-   <td style="text-align:center;background-color: lightgreen !important;"> 96.7 </td>
-   <td style="text-align:center;"> 1.1883117 </td>
-   <td style="text-align:center;"> 84.13115 </td>
-   <td style="text-align:center;"> 15.64911 </td>
-   <td style="text-align:center;"> 54.10929 </td>
-   <td style="text-align:center;"> 16.69504 </td>
-   <td style="text-align:center;"> 0.3955847 </td>
-   <td style="text-align:center;"> 0.2680318 </td>
-   <td style="text-align:center;"> 0.0257268 </td>
-   <td style="text-align:center;"> 0.0174041 </td>
-   <td style="text-align:center;"> 0.0012865 </td>
-  </tr>
-  <tr>
-   <td style="text-align:center;"> A </td>
-   <td style="text-align:center;"> 2017 </td>
-   <td style="text-align:center;"> 14 </td>
-   <td style="text-align:center;"> 160 </td>
-   <td style="text-align:center;background-color: yellow !important;"> 4.1 </td>
-   <td style="text-align:center;background-color: lightgreen !important;"> 97.4 </td>
-   <td style="text-align:center;"> 1.0389610 </td>
-   <td style="text-align:center;"> 108.31875 </td>
-   <td style="text-align:center;"> 15.53991 </td>
-   <td style="text-align:center;"> 65.83750 </td>
-   <td style="text-align:center;"> 16.41823 </td>
-   <td style="text-align:center;"> 0.5805625 </td>
-   <td style="text-align:center;"> 0.3058017 </td>
-   <td style="text-align:center;"> 0.0377312 </td>
-   <td style="text-align:center;"> 0.0198459 </td>
-   <td style="text-align:center;"> 0.0015690 </td>
   </tr>
 </tbody>
 </table>
@@ -818,7 +841,7 @@ dbl (16): year, d30, Height (m), Height (cm), Crown Dia (m), Crown Dia (cm),...
 replace the existing scale.</code></pre>
 </div>
 <div class="cell-output-display">
-<p><img src="silvestrum_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid" width="672"></p>
+<p><img src="silvestrum_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>Graph #2 presents a relationship between variance in tree sizes and the difference between the estimated total trees by the power calculation and the actual number of samples. It suggests that plots with higher variance may require more tree samples, while those with lower variation may require fewer samples.</p>
@@ -828,7 +851,7 @@ replace the existing scale.</code></pre>
 <p>Produce Graph #3 illustrating the relationship between the average size of trees (measured by crown diameter in centimeters) and the standard deviation of carbon (in Mg/ha) per plot.</p>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="silvestrum_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid" width="672"></p>
+<p><img src="silvestrum_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>Graph #3 displays the impact of the mean tree size (crown diameter in centimeters), on the standard deviation of carbon (Mg/ha) per plot. The graph demonstrates a noticeable rise in the variability of carbon calculations as the size of trees increases.</p>
@@ -862,20 +885,20 @@ replace the existing scale.</code></pre>
 <section id="creating-a-new-vector-for-the-power-calculation" class="level5">
 <h5 class="anchored" data-anchor-id="creating-a-new-vector-for-the-power-calculation">Creating a new vector for the Power Calculation</h5>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>new_vector2 <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(summary_full_df)) { </span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  sd <span class="ot">=</span> summary_full_df<span class="sc">$</span>sd_biomass[[i]]</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  mean <span class="ot">=</span> summary_full_df<span class="sc">$</span>mean_biomass[[i]]</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  d1 <span class="ot">=</span> <span class="fu">as.numeric</span>(<span class="fu">sqrt</span>(sd<span class="sc">^</span><span class="dv">2</span><span class="sc">/</span><span class="dv">2</span>))</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  effect_size <span class="ot">=</span> mean <span class="sc">/</span> d1</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  power_test <span class="ot">&lt;-</span> <span class="fu">pwr.t.test</span>(<span class="at">d =</span> effect_size, </span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>                           <span class="at">power =</span> <span class="fl">0.90</span>, </span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>                           <span class="at">sig.level =</span> <span class="fl">0.05</span>,</span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>                           <span class="at">type=</span><span class="st">"two.sample"</span>,</span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>                           <span class="at">alternative=</span><span class="st">"two.sided"</span>)</span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  new <span class="ot">&lt;-</span> <span class="fu">round</span>(power_test<span class="sc">$</span>n,<span class="dv">1</span>)            </span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>  new_vector2 <span class="ot">&lt;-</span> <span class="fu">c</span>(new_vector2, new)}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>new_vector2 <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(summary_full_df)) { </span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  sd <span class="ot">=</span> summary_full_df<span class="sc">$</span>sd_biomass[[i]]</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  mean <span class="ot">=</span> summary_full_df<span class="sc">$</span>mean_biomass[[i]]</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  d1 <span class="ot">=</span> <span class="fu">as.numeric</span>(<span class="fu">sqrt</span>(sd<span class="sc">^</span><span class="dv">2</span><span class="sc">/</span><span class="dv">2</span>))</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  effect_size <span class="ot">=</span> mean <span class="sc">/</span> d1</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  power_test <span class="ot">&lt;-</span> <span class="fu">pwr.t.test</span>(<span class="at">d =</span> effect_size, </span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>                           <span class="at">power =</span> <span class="fl">0.90</span>, </span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>                           <span class="at">sig.level =</span> <span class="fl">0.05</span>,</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>                           <span class="at">type=</span><span class="st">"two.sample"</span>,</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>                           <span class="at">alternative=</span><span class="st">"two.sided"</span>)</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>  new <span class="ot">&lt;-</span> <span class="fu">round</span>(power_test<span class="sc">$</span>n,<span class="dv">1</span>)            </span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>  new_vector2 <span class="ot">&lt;-</span> <span class="fu">c</span>(new_vector2, new)}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 
@@ -1101,27 +1124,27 @@ replace the existing scale.</code></pre>
 <p><em>s =</em> Estimated standard deviation of biomass stock in stratum</p>
 <p><em>E</em> = Acceptable margin of error (i.e.&nbsp;one-half the confidence interval) in estimation of biomass stock within the project boundary.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create a logical condition that is TRUE for rows where the year is 2010</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co"># use the condition inside the square brackets to subset the data frame and select the "density" column</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>tvalue <span class="ot">=</span> <span class="fl">1.645</span></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>conf_interval <span class="ot">&lt;-</span> <span class="fu">t.test</span>(summary_full_df<span class="sc">$</span>sd_biomass, <span class="at">conf.level =</span> <span class="fl">0.95</span>)</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>lower <span class="ot">&lt;-</span> conf_interval<span class="sc">$</span>conf.int[<span class="dv">1</span>]</span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>upper <span class="ot">&lt;-</span> conf_interval<span class="sc">$</span>conf.int[<span class="dv">2</span>]</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>E <span class="ot">&lt;-</span> (upper <span class="sc">-</span> lower) <span class="sc">/</span> <span class="dv">2</span></span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>ar_tool <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq</span>(<span class="dv">1</span>,<span class="dv">10</span>)){</span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>  year_condition <span class="ot">&lt;-</span> summary_full_df<span class="sc">$</span>year[i]</span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>  w <span class="ot">&lt;-</span> <span class="dv">154</span><span class="sc">/</span>(summary_full_df<span class="sc">$</span>plot_count[i]<span class="sc">*</span><span class="dv">154</span>)</span>
-<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>  s <span class="ot">&lt;-</span> full_plots<span class="sc">$</span>sd_biomass[<span class="fu">which</span>(full_plots<span class="sc">$</span>year <span class="sc">==</span> year_condition)]</span>
-<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>  N <span class="ot">&lt;-</span> summary_full_df<span class="sc">$</span>plot_count[i]</span>
-<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">&lt;-</span> <span class="fu">round</span>((N <span class="sc">*</span> tvalue<span class="sc">^</span><span class="dv">2</span> <span class="sc">*</span> <span class="fu">sum</span>(w <span class="sc">*</span> s)<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span> (N <span class="sc">*</span> E<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> (tvalue<span class="sc">^</span><span class="dv">2</span> <span class="sc">*</span> <span class="fu">sum</span>(w <span class="sc">*</span> s<span class="sc">^</span><span class="dv">2</span>))),<span class="dv">1</span>)</span>
-<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>  ar_tool <span class="ot">&lt;-</span> <span class="fu">c</span>(ar_tool, n)</span>
-<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>summary_full_df<span class="sc">$</span>ar_tool <span class="ot">&lt;-</span> ar_tool</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create a logical condition that is TRUE for rows where the year is 2010</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co"># use the condition inside the square brackets to subset the data frame and select the "density" column</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>tvalue <span class="ot">=</span> <span class="fl">1.645</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>conf_interval <span class="ot">&lt;-</span> <span class="fu">t.test</span>(summary_full_df<span class="sc">$</span>sd_biomass, <span class="at">conf.level =</span> <span class="fl">0.95</span>)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>lower <span class="ot">&lt;-</span> conf_interval<span class="sc">$</span>conf.int[<span class="dv">1</span>]</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>upper <span class="ot">&lt;-</span> conf_interval<span class="sc">$</span>conf.int[<span class="dv">2</span>]</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>E <span class="ot">&lt;-</span> (upper <span class="sc">-</span> lower) <span class="sc">/</span> <span class="dv">2</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>ar_tool <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq</span>(<span class="dv">1</span>,<span class="dv">10</span>)){</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>  year_condition <span class="ot">&lt;-</span> summary_full_df<span class="sc">$</span>year[i]</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>  w <span class="ot">&lt;-</span> <span class="dv">154</span><span class="sc">/</span>(summary_full_df<span class="sc">$</span>plot_count[i]<span class="sc">*</span><span class="dv">154</span>)</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>  s <span class="ot">&lt;-</span> full_plots<span class="sc">$</span>sd_biomass[<span class="fu">which</span>(full_plots<span class="sc">$</span>year <span class="sc">==</span> year_condition)]</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>  N <span class="ot">&lt;-</span> summary_full_df<span class="sc">$</span>plot_count[i]</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">&lt;-</span> <span class="fu">round</span>((N <span class="sc">*</span> tvalue<span class="sc">^</span><span class="dv">2</span> <span class="sc">*</span> <span class="fu">sum</span>(w <span class="sc">*</span> s)<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span> (N <span class="sc">*</span> E<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> (tvalue<span class="sc">^</span><span class="dv">2</span> <span class="sc">*</span> <span class="fu">sum</span>(w <span class="sc">*</span> s<span class="sc">^</span><span class="dv">2</span>))),<span class="dv">1</span>)</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>  ar_tool <span class="ot">&lt;-</span> <span class="fu">c</span>(ar_tool, n)</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>summary_full_df<span class="sc">$</span>ar_tool <span class="ot">&lt;-</span> ar_tool</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 
@@ -1351,7 +1374,7 @@ replace the existing scale.</code></pre>
 <h5 class="anchored" data-anchor-id="create-a-graph-4-that-shows-the-calculated-number-of-plots-per-method-and-per-project">Create a graph (#4) that shows the calculated number of plots per method and per project</h5>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="silvestrum_files/figure-html/unnamed-chunk-28-1.png" class="img-fluid" width="672"></p>
+<p><img src="silvestrum_files/figure-html/unnamed-chunk-29-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </section>
@@ -1366,6 +1389,7 @@ replace the existing scale.</code></pre>
 <li><p>Notably, Graph #4 reveals an intriguing pattern between the read number of plots and A/R Tool-predicted number of plots. I would like to take further examination with your input.</p></li>
 <li><p>With regard to the PDF of A/R Methodological Tool. The point 13 suggest that a second iteration is necessary if the iteration count is below 30. Which i would also like to take further examination with your help and interpretation.</p></li>
 </ol>
+</section>
 </section>
 </section>
 

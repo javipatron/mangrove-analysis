@@ -4,66 +4,49 @@ author: "Javier Patrón"
 date: "`r Sys.Date()`"
 output:
   pdf_document:
-    output:
+    latex_engine: xelatex
     toc: true
-editor: 
-  markdown: 
-    wrap: 72
+    number_sections: true
+    fig_caption: true
+    keep_tex: true
+    highlight: tango
 ---
 
-This are the steps I have followed which some code and steps are not
-shown in the PDF.
+## Introduccion
+
+This assignment aims to estimate the required number of plots per project based on tree carbon variance by analyzing the data from two sites (A and B). The analysis involved data cleaning and processing, creation of a correlation matrix, and power calculations to deepen the understanding of the correlation between variables. Tables and graphs were created to visualize the findings and draw conclusions about the sampled trees and plots. The A/R methodological Tool was used to measure and compare the number of plots required per plantation year. Please note that the preliminary results presented in this report require further review and fine-tuning for real samples in the field.
+
+#### Steps:
 
 1.  Load the necessary libraries
 2.  Read the CSV files
 3.  Clean and change column types as needed
-4.  Filter, join and create a data frame with all samples from Site A
-    and Site B, ensuring that only 154m2 sample plots are included
-    (Table #1)
-5.  Create a correlation matrix to understand the variables affecting
-    Total Tree Carbon (Mg/ha)
-6.  Run a power calculation to determine the number of trees needed per
-    plot:
-    a.  Create a table (#2) with all the necessary stats information
-        grouped by plot
-    b.  Create a graph (#1) to show the effect of tree count on the
-        standard deviation of carbon per plot
-    c.  Create a for loop that runs a power calculation per plot and
-        shows the estimated number of trees required to maintain a 90%
-        power. This information is displayed in Table #3
-    d.  Create a graph (#2) that shows the effect of tree size variation
-        (SD tree Diameter) on the recommended decrease of total number
-        of trees to be measured per plot
-    e.  Create a graph (#3) that shows how the mean of tree size
-        (crown_diameter_cm) affects the standard deviation of carbon
-        (Mg/ha) per plot
+4.  Filter, join and create a data frame with all samples from Site A and Site B, ensuring that only 154m2 sample plots are included (Table #1)
+5.  Create a correlation matrix to understand the variables affecting Total Tree Carbon (Mg/ha)
+6.  Run a power calculation to determine the number of trees needed per plot:
+    a.  Create a table (#2) with all the necessary stats information grouped by plot
+    b.  Create a graph (#1) to show the effect of tree count on the standard deviation of carbon per plot
+    c.  Create a for loop that runs a power calculation per plot and shows the estimated number of trees required to maintain a 90% power. This information is displayed in Table #3
+    d.  Create a graph (#2) that shows the effect of tree size variation (SD tree Diameter) on the recommended decrease of total number of trees to be measured per plot
+    e.  Create a graph (#3) that shows how the mean of tree size (crown_diameter_cm) affects the standard deviation of carbon (Mg/ha) per plot
     f.  Draw conclusions regarding the sampled trees
-7.  Analyze and calculate the total number of plots per plantation year
-    (project):
-    a.  Create a table that contains all the information for the
-        analysis
-    b.  Create a for loop that runs a power calculation per plantation
-        year and shows the estimated number of plots required to
-        maintain a 90% power. This information is displayed in Table #4
+7.  Analyze and calculate the total number of plots per plantation year (project):
+    a.  Create a table that contains all the information for the analysis
+    b.  Create a for loop that runs a power calculation per plantation year and shows the estimated number of plots required to maintain a 90% power. This information is displayed in Table #4
     c.  Create a table (#4) grouping per plantation year
     d.  Create a for loop that runs the A/R Methodological Tool
     e.  Merge all results in a table (#5)
-    f.  Create a graph (#4) that shows the calculated number of plots
-        per method and per project
-    g.  Draw conclusions around the calculations required for estimating
-        biomass stocks and the number of plots required using different
-        methods
+    f.  Create a graph (#4) that shows the calculated number of plots per method and per project
+    g.  Draw conclusions around the calculations required for estimating biomass stocks and the number of plots required using different methods
 
-To increase the amount of data available for the analysis i merge the
-data from both sites, I have made the assumption of combining the crown
-size diameter data from Site B with the CD Chatting in cm from site A.
-Hope this is right.
+Notes:
+
+1\) To increase the amount of data available for the analysis i merge the data from both sites, I have made the assumption of combining the crown size diameter data from Site B with the CD Chatting in cm from site A. Hope this is right.
+
+2\) The PDF report only shows some of the code and steps to perform the analysis. The full details of the analysis, including the code and steps, can be found in the original script file (.Rmd)."
 
 ```{r echo=FALSE, fig.align='center', out.width="80%"}
-
 #![](tree_diagram.jpg)
-
-
 ```
 
 ![](tree_diagram.jpg){width="70%", fig.align = "center}
@@ -79,6 +62,8 @@ library(skimr)
 library(tidymodels)
 library(kableExtra)
 library(corrplot)
+library(stringr)
+
 
 ```
 
@@ -116,7 +101,10 @@ tidy_a <- mangrove_df_a |>
          plot_name = plot,
          crown_diameter_cm = cd_chatting_m,
          total_tree_c_kg = total_tree_kg_c,
-         "total_tree_c_Mg_ha" = total_tree_mg_c_ha)
+         "total_tree_c_Mg_ha" = total_tree_mg_c_ha) |>
+  mutate(plot_name = as.numeric(plot_name)) |> 
+  mutate(new_plot_name = ifelse(plot_name < 10, sprintf("0%d", plot_name), as.character(plot_name))) |> 
+  relocate(new_plot_name, .after = plot_name)
 
 ```
 
@@ -134,13 +122,35 @@ tidy_b <- mangrove_df_b |>
 
 ```
 
-```{r, echo = F}
-# 4. Creating a row binding to have the same columns but all the information
-full_df <- rbind(tidy_a, tidy_b)
+```{r}
+tidy_b <- tidy_b %>% 
+  mutate(new_plot_name = str_extract(plot_name, "(?<=Sample Plot #\\s)\\d+")) |> 
+  relocate(new_plot_name, .after = plot_name)
 ```
+
+```{r, echo = F}
+
+# 4. Creating a row binding to have the same columns but all the information
+full_df <- rbind(tidy_a, tidy_b) |> 
+    mutate(plot_name = paste0("site", site, "_", year, "_plot_", new_plot_name)) |> 
+  rename(full_plot_name = plot_name) |> 
+  mutate(new_plot_name = paste0("Sample_Plot#", new_plot_name)) |> 
+  rename(plot_name = new_plot_name) |> 
+  relocate(full_plot_name, .before = height_cm)
+
+```
+
+```{r, echo = F}
+
+write_csv(full_df, here::here("full_df.csv"))
+
+```
+
+
 
 ```{r, echo=F}
 mangrove_recipe <- full_df |> 
+  select(-c(full_plot_name)) |> 
   recipe(total_tree_c_Mg_ha ~ .) |> 
   step_integer(site, year, plot_name, zero_based = TRUE) |> 
   prep() |> 
@@ -150,7 +160,7 @@ mangrove_recipe <- full_df |>
 
 #### Step 1, 2, 3
 
-##### Done in the internal side of the R Markdown document.
+##### These steps were completed within the environment of the R Markdown.
 
 #### Step 4
 
@@ -187,9 +197,7 @@ corrplot(tree_matrix,
 
 ```
 
-As we can see in the matrix above the height of the tree is relevant
-`height_cm` with 0.46 of correlation but the `crown/diameter` column is
-even **greater with 0.86**
+As we can see in the matrix above the height of the tree is relevant `height_cm` with 0.46 of correlation but the `crown/diameter` column is even **greater with 0.86**
 
 #### Step 6
 
@@ -215,8 +223,7 @@ full_plots <- full_df |>
 
 #### Step 6 (a)
 
-Create a Table #2 with all the necessary stats information grouped by
-plot
+Create a Table #2 with all the necessary stats information grouped by plot
 
 ```{r, echo = F}
 
@@ -231,9 +238,7 @@ full_plots %>%
 
 #### Step 6 (b)
 
-Generate a graph (Graph #1) that visually represents the relationship
-between the number of trees counted per plot and the resulting standard
-deviation of carbon per plot.
+Generate a graph (Graph #1) that visually represents the relationship between the number of trees counted per plot and the resulting standard deviation of carbon per plot.
 
 ```{r, echo = FALSE}
 
@@ -246,10 +251,7 @@ ggplot(full_plots, aes(x = tree_count, y = sd_carbon_Mg_ha)) +
 
 ```
 
-The graph (#1) illustrates that as the number of sampled trees
-increases, the divergence of the carbon calculations (SD) decreases
-significantly. However, it is important to establish a threshold for the
-optimal number of trees required to achieve an accurate estimate.
+The graph (#1) illustrates that as the number of sampled trees increases, the divergence of the carbon calculations (SD) decreases significantly. However, it is important to establish a threshold for the optimal number of trees required to achieve an accurate estimate.
 
 #### Step 6 (c)
 
@@ -299,10 +301,7 @@ full_plots %>%
 
 ```
 
-As presented in the table above, the number of trees achieving a power
-level of 0.90 is indicated by the yellow highlighting, whereas the
-percentage reduction of samples being measured is indicated by the green
-highlighting.
+As presented in the table above, the number of trees achieving a power level of 0.90 is indicated by the yellow highlighting, whereas the percentage reduction of samples being measured is indicated by the green highlighting.
 
 #### Step 6 (d)
 
@@ -321,17 +320,11 @@ ggplot(full_plots, aes(x = sd_diameter, y = difference, color = site)) +
 
 ```
 
-Graph #2 presents a relationship between variance in tree sizes and the
-difference between the estimated total trees by the power calculation
-and the actual number of samples. It suggests that plots with higher
-variance may require more tree samples, while those with lower variation
-may require fewer samples.
+Graph #2 presents a relationship between variance in tree sizes and the difference between the estimated total trees by the power calculation and the actual number of samples. It suggests that plots with higher variance may require more tree samples, while those with lower variation may require fewer samples.
 
 #### Step 6 (e)
 
-Produce Graph #3 illustrating the relationship between the average size
-of trees (measured by crown diameter in centimeters) and the standard
-deviation of carbon (in Mg/ha) per plot.
+Produce Graph #3 illustrating the relationship between the average size of trees (measured by crown diameter in centimeters) and the standard deviation of carbon (in Mg/ha) per plot.
 
 ```{r, echo = F}
 
@@ -344,42 +337,19 @@ ggplot(full_plots, aes(x = mean_diameter_cm, y = sd_carbon_Mg_ha, color = site )
 
 ```
 
-Graph #3 displays the impact of the mean tree size (crown diameter in
-centimeters), on the standard deviation of carbon (Mg/ha) per plot. The
-graph demonstrates a noticeable rise in the variability of carbon
-calculations as the size of trees increases.
+Graph #3 displays the impact of the mean tree size (crown diameter in centimeters), on the standard deviation of carbon (Mg/ha) per plot. The graph demonstrates a noticeable rise in the variability of carbon calculations as the size of trees increases.
 
 #### Step 6 (f)
 
 ##### Conclusions for calculating the amount of trees
 
-1.  The power calculation in Table #3 suggests that a significant
-    reduction in the number of trees measured is possible while still
-    maintaining a 90% power level. However, plots with high variance may
-    require additional sampling to maintain the same level of power.
+1.  The power calculation in Table #3 suggests that a significant reduction in the number of trees measured is possible while still maintaining a 90% power level. However, plots with high variance may require additional sampling to maintain the same level of power.
 
-2.  Graph #1 demonstrates that there is an inverse relationship between
-    the number of trees measured per plot and the Std. Deviation of the
-    calculated Carbon (Mg/ha) per plot. This suggests that increasing
-    the number of trees sampled can lead to more precise carbon
-    measurements. However, there is a trade-off between accuracy and
-    efficiency, as increasing the number of trees sampled can also
-    increase project costs. Therefore, we proceeded with the power
-    calculation method to determine the optimal number of trees to be
-    sampled.
+2.  Graph #1 demonstrates that there is an inverse relationship between the number of trees measured per plot and the Std. Deviation of the calculated Carbon (Mg/ha) per plot. This suggests that increasing the number of trees sampled can lead to more precise carbon measurements. However, there is a trade-off between accuracy and efficiency, as increasing the number of trees sampled can also increase project costs. Therefore, we proceeded with the power calculation method to determine the optimal number of trees to be sampled.
 
-3.  Graph #2 suggests that most plots can significantly reduce the
-    number of sampled trees, except for outliers (2019 Sample Plot# 01,
-    2018 Sample Plot# 02, and 2015 Sample Plot# 06), which exhibit
-    unusual data and behavior and may require additional sampling to
-    ensure accurate carbon measurement.
+3.  Graph #2 suggests that most plots can significantly reduce the number of sampled trees, except for outliers (2019 Sample Plot# 01, 2018 Sample Plot# 02, and 2015 Sample Plot# 06), which exhibit unusual data and behavior and may require additional sampling to ensure accurate carbon measurement.
 
-4.  Graph #3 reveals a significant relationship between canopy diameter
-    and the SD of Carbon calculated. The analysis indicates that larger
-    trees tend to contribute to greater disturbance and variation in the
-    overall carbon calculations, suggesting that careful consideration
-    of sample selection is necessary to minimize variability in carbon
-    measurements.
+4.  Graph #3 reveals a significant relationship between canopy diameter and the SD of Carbon calculated. The analysis indicates that larger trees tend to contribute to greater disturbance and variation in the overall carbon calculations, suggesting that careful consideration of sample selection is necessary to minimize variability in carbon measurements.
 
 #### Step 7 (a)
 
@@ -403,7 +373,7 @@ summary_full_df <- full_df |>
             std_error = sd_tot_carbon_Mg_ha/sqrt(plot_count))
 ```
 
-#### Step 7 (b) 
+#### Step 7 (b)
 
 ##### Creating a new vector for the Power Calculation
 
@@ -433,7 +403,7 @@ summary_full_df <- summary_full_df |>
 
 ```
 
-#### Step 7 (c) 
+#### Step 7 (c)
 
 ##### Create a table (#4) grouping per plantation year
 
@@ -448,9 +418,7 @@ summary_full_df %>%
 
 ```
 
-Table 4 displays the actual number of plots per project highlighted in
-pink as well as the estimated number of sample plots calculated using
-the power calculation method in blue.
+Table 4 displays the actual number of plots per project highlighted in pink as well as the estimated number of sample plots calculated using the power calculation method in blue.
 
 ```{r, include= F}
 # Power Calculation Testing
@@ -471,28 +439,23 @@ the power calculation method in blue.
 
 ```
 
-#### Step 7 (d) 
+#### Step 7 (d)
 
 ##### Create a for loop that runs the A/R Methodological Tool.
 
 $$n =\frac{N \text{ }* \text{ }tvalue^2 \text{ }* \text{ }(\epsilon\ w * s)^2)}{N \text{ }*\text{ } E^2 + \text{ }tvalue^2 \text{ }* \text{ }\epsilon\ w * s^2}$$
 
-*n* = Number of sample plots required for estimation of biomass stocks
-within the project boundary; dimensionless.
+*n* = Number of sample plots required for estimation of biomass stocks within the project boundary; dimensionless.
 
-*N* = Total number of possible sample plots within the project boundary
-space or the population; dimensionless.
+*N* = Total number of possible sample plots within the project boundary space or the population; dimensionless.
 
-*t-value* = Two-sided Student´s t-value, at infinite degrees of freedom,
-for the required confidence level; dimensionless. (Table-\> 90% = 1.645)
+*t-value* = Two-sided Student´s t-value, at infinite degrees of freedom, for the required confidence level; dimensionless. (Table-\> 90% = 1.645)
 
-*w* = Relative weight of the area of stratum i (i.e. the area of the
-stratum i divided by the project).
+*w* = Relative weight of the area of stratum i (i.e. the area of the stratum i divided by the project).
 
 *s =* Estimated standard deviation of biomass stock in stratum
 
-*E* = Acceptable margin of error (i.e. one-half the confidence interval)
-in estimation of biomass stock within the project boundary.
+*E* = Acceptable margin of error (i.e. one-half the confidence interval) in estimation of biomass stock within the project boundary.
 
 ```{r}
 # create a logical condition that is TRUE for rows where the year is 2010
@@ -563,29 +526,14 @@ summary_full_df |>
 
 ```
 
-#### Step 7 (f) 
+#### Step 7 (f)
 
 ##### Conclusions for the calculations of amount of plots:
 
-1.  The graph #4 illustrates the distribution of plantation years and
-    the number of plots utilizing each method. The "real" figures
-    represent the initial data, the "power" numbers are based on the
-    power calculation demonstrated in the aforementioned code, and the
-    "A/R Tool" employs the formula generated by the for loop.
+1.  The graph #4 illustrates the distribution of plantation years and the number of plots utilizing each method. The "real" figures represent the initial data, the "power" numbers are based on the power calculation demonstrated in the aforementioned code, and the "A/R Tool" employs the formula generated by the for loop.
 
-2.  In table #5 you can see a complex interaction between the various
-    calculations and methods. There is a substantial fluctuation in the
-    total number of plots, contingent on the method used. Although
-    certain plantation years demonstrate comparable results across all
-    three methods (e.g., "2016 on Site B"), other years exhibit
-    substantial deviations, such as (e.g., "2020 on Site A"). It is
-    essential to verify these results.
+2.  In table #5 you can see a complex interaction between the various calculations and methods. There is a substantial fluctuation in the total number of plots, contingent on the method used. Although certain plantation years demonstrate comparable results across all three methods (e.g., "2016 on Site B"), other years exhibit substantial deviations, such as (e.g., "2020 on Site A"). It is essential to verify these results.
 
-3.  Notably, Graph #4 reveals an intriguing pattern between the read
-    number of plots and A/R Tool-predicted number of plots. I would like
-    to take further examination with your input.
+3.  Notably, Graph #4 reveals an intriguing pattern between the read number of plots and A/R Tool-predicted number of plots. I would like to take further examination with your input.
 
-4.  With regard to the PDF of A/R Methodological Tool. The point 13
-    suggest that a second iteration is necessary if the iteration count
-    is below 30. Which i would also like to take further examination
-    with your help and interpretation.
+4.  With regard to the PDF of A/R Methodological Tool. The point 13 suggest that a second iteration is necessary if the iteration count is below 30. Which i would also like to take further examination with your help and interpretation.
