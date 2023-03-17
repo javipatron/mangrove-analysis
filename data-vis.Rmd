@@ -1,0 +1,40 @@
+
+## Create your own data vis
+
+
+```{r}
+library(tidyverse)
+library(janitor)
+```
+
+
+
+```{r, message=F, warning=F}
+
+full_df <- read_csv("full_df.csv") 
+full_plots <- read_csv("full_plots.csv")
+
+```
+
+
+```{r}
+
+airtemp_echarts4r <- weather %>% 
+  group_by(year) %>% 
+  e_charts(x = julian, timeline = TRUE) %>% 
+  e_scatter(serie = mean_airtemp, symbol_size = 10) %>% 
+  e_visual_map(min = -56, max = 21) %>% 
+  e_tooltip(trigger = "item") %>% 
+  e_axis_labels(
+    x = "Julian day",
+    y = "degrees Celsius"
+  ) %>% 
+  e_text_style(fontFamily = "Garamond") %>% 
+  e_title(text = "Toolik Field Station is below freezing for most of the year.") %>% 
+  e_legend(show = FALSE)
+
+
+airtemp_echarts4r
+
+```
+
