@@ -72,9 +72,9 @@ library(estimatr)
 
 #2. Read the .cv files 
 #Load the shared Mangrove Data from Silvestrum
-mangrove_df_a <- read_csv("/Users/javipatron/Documents/MEDS/Personal/projects/mangrove-analysis/data/clean_monitoring_data_javier.csv") |> clean_names() #Clean names will make the column names as lower case
+mangrove_df_a <- read_csv("/Users/javipatron/Library/Mobile Documents/com~apple~CloudDocs/Documents/Silvestrum/EDS222-Stats/mangrove-analysis/data/clean_monitoring_data_javier.csv") |> clean_names() #Clean names will make the column names as lower case
 
-mangrove_df_b <- read_csv("/Users/javipatron/Documents/MEDS/Personal/projects/mangrove-analysis/data/siteb.csv") |> clean_names() |> na.omit()#homogenizing the column names and adding NA to values
+mangrove_df_b <- read_csv("/Users/javipatron/Library/Mobile Documents/com~apple~CloudDocs/Documents/Silvestrum/EDS222-Stats/mangrove-analysis/data/siteb.csv") |> clean_names() |> na.omit()#homogenizing the column names and adding NA to values
 
 ```
 
@@ -183,7 +183,6 @@ print(paste("The dimensions of this complete data frame are", dim(full_df)[1], "
 Create a correlation Matrix to see the importance of the variables.
 
 ```{r}
-
 # Obtain correlation matrix
 tree_matrix <- cor(mangrove_recipe)
 
@@ -223,6 +222,8 @@ full_plots <- full_df |>
             sd_carbon_Mg_ha = sd(total_tree_c_Mg_ha),
             std_error = sd_carbon_Mg_ha/sqrt(tree_count)) |> 
   relocate(plot_name, .after = year)
+
+
 ```
 
 ```{r, echo = F}
@@ -488,7 +489,7 @@ E <- (upper - lower) / 2
 
 ar_tool <- c()
 
-for (i in seq(1,10)){
+for (i in seq(1,12)){
   year_condition <- summary_full_df$year[i]
   w <- 154/(summary_full_df$plot_count[i]*154)
   s <- full_plots$sd_biomass[which(full_plots$year == year_condition)]

@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.269">
+<meta name="generator" content="quarto-1.3.450">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Javier Patrón">
-<meta name="dcterms.date" content="2023-03-02">
+<meta name="dcterms.date" content="2024-02-09">
 
 <title>Silvestrum Assignment</title>
 <style>
@@ -19,9 +19,10 @@ div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
   width: 0.8em;
-  margin: 0 0.8em 0.2em -1.6em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
@@ -48,43 +49,13 @@ pre.numberSource code > span > a:first-child::before
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
     padding: 0 4px; width: 4em;
-    color: #aaaaaa;
   }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
 div.sourceCode
   {   }
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { color: #008000; } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { color: #008000; font-weight: bold; } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 
@@ -101,7 +72,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <script src="silvestrum_files/libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="silvestrum_files/libs/lightable-0.0.1/lightable.css" rel="stylesheet">
-<script src="silvestrum_files/libs/htmlwidgets-1.6.1/htmlwidgets.js"></script>
+<script src="silvestrum_files/libs/htmlwidgets-1.6.2/htmlwidgets.js"></script>
 <script src="silvestrum_files/libs/plotly-binding-4.10.1/plotly.js"></script>
 <script src="silvestrum_files/libs/typedarray-0.1/typedarray.min.js"></script>
 <script src="silvestrum_files/libs/jquery-3.5.1/jquery.min.js"></script>
@@ -110,6 +81,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <link href="silvestrum_files/libs/plotly-htmlwidgets-css-2.11.1/plotly-htmlwidgets.css" rel="stylesheet">
 <script src="silvestrum_files/libs/plotly-main-2.11.1/plotly-latest.min.js"></script>
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 </head>
@@ -139,7 +111,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">March 2, 2023</p>
+      <p class="date">February 9, 2024</p>
     </div>
   </div>
   
@@ -185,27 +157,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>1) To increase the amount of data available for the analysis I merge the data from both sites, I have made the assumption of combining the crown size diameter data from Site B (<em>Crown Dia (cm)</em> ) with the CD Chatting in cm from site A (<em>CD Chatting (m) )</em>. I assume this is right.</p>
 <p>2) The PDF report only shows some of the code and steps to perform the analysis. The full details of the analysis, including the code and steps, can be found in the original script file (.Rmd).”</p>
 <p><img src="tree_diagram.jpg" class="img-fluid">{width=“50%”, fig.align = “center}</p>
-<div class="cell">
-
-</div>
-<div class="cell">
-
-</div>
-<div class="cell">
-
-</div>
-<div class="cell">
-
-</div>
-<div class="cell">
-
-</div>
-<div class="cell">
-
-</div>
-<div class="cell">
-
-</div>
 </section>
 <section id="step-1-2-3" class="level4">
 <h4 class="anchored" data-anchor-id="step-1-2-3">Step 1, 2, 3</h4>
@@ -216,124 +167,124 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Here is an overview of the complete data frame comprising information from both sites is provided below. Please note that the Table below is showing only the first 10 records.</p>
 <div class="cell">
 <div class="cell-output-display">
-
-<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<table class="table table-sm table-striped small" data-quarto-postprocess="true">
 <caption>Table 1. All sample trees (Site A+B)</caption>
- <thead>
-  <tr>
-   <th style="text-align:center;"> site </th>
-   <th style="text-align:center;"> year </th>
-   <th style="text-align:center;"> plot_name </th>
-   <th style="text-align:center;"> full_plot_name </th>
-   <th style="text-align:center;"> height_cm </th>
-   <th style="text-align:center;"> crown_diameter_cm </th>
-   <th style="text-align:center;"> total_tree_c_kg </th>
-   <th style="text-align:center;"> total_tree_c_Mg_ha </th>
-  </tr>
- </thead>
+<thead>
+<tr class="header">
+<th style="text-align: center;" data-quarto-table-cell-role="th">site</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">year</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">plot_name</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">full_plot_name</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">height_cm</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">crown_diameter_cm</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">total_tree_c_kg</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">total_tree_c_Mg_ha</th>
+</tr>
+</thead>
 <tbody>
-  <tr>
-   <td style="text-align:center;"> A </td>
-   <td style="text-align:center;"> 2017 </td>
-   <td style="text-align:center;"> Sample_Plot#08 </td>
-   <td style="text-align:center;"> siteA_2017_plot_08 </td>
-   <td style="text-align:center;"> 112 </td>
-   <td style="text-align:center;"> 58 </td>
-   <td style="text-align:center;"> 0.415 </td>
-   <td style="text-align:center;"> 0.027 </td>
-  </tr>
-  <tr>
-   <td style="text-align:center;"> A </td>
-   <td style="text-align:center;"> 2010 </td>
-   <td style="text-align:center;"> Sample_Plot#05 </td>
-   <td style="text-align:center;"> siteA_2010_plot_05 </td>
-   <td style="text-align:center;"> 217 </td>
-   <td style="text-align:center;"> 335 </td>
-   <td style="text-align:center;"> 17.639 </td>
-   <td style="text-align:center;"> 1.146 </td>
-  </tr>
-  <tr>
-   <td style="text-align:center;"> A </td>
-   <td style="text-align:center;"> 2017 </td>
-   <td style="text-align:center;"> Sample_Plot#19 </td>
-   <td style="text-align:center;"> siteA_2017_plot_19 </td>
-   <td style="text-align:center;"> 211 </td>
-   <td style="text-align:center;"> 63 </td>
-   <td style="text-align:center;"> 0.495 </td>
-   <td style="text-align:center;"> 0.032 </td>
-  </tr>
-  <tr>
-   <td style="text-align:center;"> A </td>
-   <td style="text-align:center;"> 2017 </td>
-   <td style="text-align:center;"> Sample_Plot#19 </td>
-   <td style="text-align:center;"> siteA_2017_plot_19 </td>
-   <td style="text-align:center;"> 209 </td>
-   <td style="text-align:center;"> 102 </td>
-   <td style="text-align:center;"> 1.374 </td>
-   <td style="text-align:center;"> 0.089 </td>
-  </tr>
-  <tr>
-   <td style="text-align:center;"> A </td>
-   <td style="text-align:center;"> 2017 </td>
-   <td style="text-align:center;"> Sample_Plot#17 </td>
-   <td style="text-align:center;"> siteA_2017_plot_17 </td>
-   <td style="text-align:center;"> 207 </td>
-   <td style="text-align:center;"> 52 </td>
-   <td style="text-align:center;"> 0.324 </td>
-   <td style="text-align:center;"> 0.021 </td>
-  </tr>
-  <tr>
-   <td style="text-align:center;"> A </td>
-   <td style="text-align:center;"> 2017 </td>
-   <td style="text-align:center;"> Sample_Plot#19 </td>
-   <td style="text-align:center;"> siteA_2017_plot_19 </td>
-   <td style="text-align:center;"> 201 </td>
-   <td style="text-align:center;"> 44 </td>
-   <td style="text-align:center;"> 0.230 </td>
-   <td style="text-align:center;"> 0.015 </td>
-  </tr>
-  <tr>
-   <td style="text-align:center;"> A </td>
-   <td style="text-align:center;"> 2010 </td>
-   <td style="text-align:center;"> Sample_Plot#02 </td>
-   <td style="text-align:center;"> siteA_2010_plot_02 </td>
-   <td style="text-align:center;"> 200 </td>
-   <td style="text-align:center;"> 339 </td>
-   <td style="text-align:center;"> 18.151 </td>
-   <td style="text-align:center;"> 1.179 </td>
-  </tr>
-  <tr>
-   <td style="text-align:center;"> A </td>
-   <td style="text-align:center;"> 2010 </td>
-   <td style="text-align:center;"> Sample_Plot#05 </td>
-   <td style="text-align:center;"> siteA_2010_plot_05 </td>
-   <td style="text-align:center;"> 199 </td>
-   <td style="text-align:center;"> 160 </td>
-   <td style="text-align:center;"> 3.640 </td>
-   <td style="text-align:center;"> 0.236 </td>
-  </tr>
-  <tr>
-   <td style="text-align:center;"> A </td>
-   <td style="text-align:center;"> 2017 </td>
-   <td style="text-align:center;"> Sample_Plot#19 </td>
-   <td style="text-align:center;"> siteA_2017_plot_19 </td>
-   <td style="text-align:center;"> 198 </td>
-   <td style="text-align:center;"> 140 </td>
-   <td style="text-align:center;"> 2.735 </td>
-   <td style="text-align:center;"> 0.178 </td>
-  </tr>
-  <tr>
-   <td style="text-align:center;"> A </td>
-   <td style="text-align:center;"> 2017 </td>
-   <td style="text-align:center;"> Sample_Plot#16 </td>
-   <td style="text-align:center;"> siteA_2017_plot_16 </td>
-   <td style="text-align:center;"> 197 </td>
-   <td style="text-align:center;"> 80 </td>
-   <td style="text-align:center;"> 0.826 </td>
-   <td style="text-align:center;"> 0.054 </td>
-  </tr>
+<tr class="odd">
+<td style="text-align: center;">A</td>
+<td style="text-align: center;">2017</td>
+<td style="text-align: center;">Sample_Plot#08</td>
+<td style="text-align: center;">siteA_2017_plot_08</td>
+<td style="text-align: center;">112</td>
+<td style="text-align: center;">58</td>
+<td style="text-align: center;">0.415</td>
+<td style="text-align: center;">0.027</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">A</td>
+<td style="text-align: center;">2010</td>
+<td style="text-align: center;">Sample_Plot#05</td>
+<td style="text-align: center;">siteA_2010_plot_05</td>
+<td style="text-align: center;">217</td>
+<td style="text-align: center;">335</td>
+<td style="text-align: center;">17.639</td>
+<td style="text-align: center;">1.146</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">A</td>
+<td style="text-align: center;">2017</td>
+<td style="text-align: center;">Sample_Plot#19</td>
+<td style="text-align: center;">siteA_2017_plot_19</td>
+<td style="text-align: center;">211</td>
+<td style="text-align: center;">63</td>
+<td style="text-align: center;">0.495</td>
+<td style="text-align: center;">0.032</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">A</td>
+<td style="text-align: center;">2017</td>
+<td style="text-align: center;">Sample_Plot#19</td>
+<td style="text-align: center;">siteA_2017_plot_19</td>
+<td style="text-align: center;">209</td>
+<td style="text-align: center;">102</td>
+<td style="text-align: center;">1.374</td>
+<td style="text-align: center;">0.089</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">A</td>
+<td style="text-align: center;">2017</td>
+<td style="text-align: center;">Sample_Plot#17</td>
+<td style="text-align: center;">siteA_2017_plot_17</td>
+<td style="text-align: center;">207</td>
+<td style="text-align: center;">52</td>
+<td style="text-align: center;">0.324</td>
+<td style="text-align: center;">0.021</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">A</td>
+<td style="text-align: center;">2017</td>
+<td style="text-align: center;">Sample_Plot#19</td>
+<td style="text-align: center;">siteA_2017_plot_19</td>
+<td style="text-align: center;">201</td>
+<td style="text-align: center;">44</td>
+<td style="text-align: center;">0.230</td>
+<td style="text-align: center;">0.015</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">A</td>
+<td style="text-align: center;">2010</td>
+<td style="text-align: center;">Sample_Plot#02</td>
+<td style="text-align: center;">siteA_2010_plot_02</td>
+<td style="text-align: center;">200</td>
+<td style="text-align: center;">339</td>
+<td style="text-align: center;">18.151</td>
+<td style="text-align: center;">1.179</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">A</td>
+<td style="text-align: center;">2010</td>
+<td style="text-align: center;">Sample_Plot#05</td>
+<td style="text-align: center;">siteA_2010_plot_05</td>
+<td style="text-align: center;">199</td>
+<td style="text-align: center;">160</td>
+<td style="text-align: center;">3.640</td>
+<td style="text-align: center;">0.236</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">A</td>
+<td style="text-align: center;">2017</td>
+<td style="text-align: center;">Sample_Plot#19</td>
+<td style="text-align: center;">siteA_2017_plot_19</td>
+<td style="text-align: center;">198</td>
+<td style="text-align: center;">140</td>
+<td style="text-align: center;">2.735</td>
+<td style="text-align: center;">0.178</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">A</td>
+<td style="text-align: center;">2017</td>
+<td style="text-align: center;">Sample_Plot#16</td>
+<td style="text-align: center;">siteA_2017_plot_16</td>
+<td style="text-align: center;">197</td>
+<td style="text-align: center;">80</td>
+<td style="text-align: center;">0.826</td>
+<td style="text-align: center;">0.054</td>
+</tr>
 </tbody>
 </table>
+
 
 </div>
 <div class="cell-output cell-output-stdout">
@@ -367,199 +318,196 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <section id="step-6" class="level4">
 <h4 class="anchored" data-anchor-id="step-6">Step 6</h4>
 <p>Run a power calculation to determine the number of trees needed per plot:</p>
-<div class="cell">
-
-</div>
 </section>
 <section id="step-6-a" class="level4">
 <h4 class="anchored" data-anchor-id="step-6-a">Step 6 (a)</h4>
 <p>Create a Table #2 with all the necessary stats information grouped by plot</p>
 <div class="cell">
 <div class="cell-output-display">
-
-<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<table class="table table-sm table-striped small" data-quarto-postprocess="true">
 <caption>Table 2. General info of every plot</caption>
- <thead>
-  <tr>
-   <th style="text-align:center;"> site </th>
-   <th style="text-align:center;"> year </th>
-   <th style="text-align:center;"> plot_name </th>
-   <th style="text-align:center;"> tree_count </th>
-   <th style="text-align:center;"> density </th>
-   <th style="text-align:center;"> mean_height_cm </th>
-   <th style="text-align:center;"> sd_height </th>
-   <th style="text-align:center;"> mean_diameter_cm </th>
-   <th style="text-align:center;"> sd_diameter </th>
-   <th style="text-align:center;"> mean_biomass </th>
-   <th style="text-align:center;"> sd_biomass </th>
-   <th style="text-align:center;"> mean_carbon_Mg_ha </th>
-   <th style="text-align:center;"> sd_carbon_Mg_ha </th>
-   <th style="text-align:center;"> std_error </th>
-  </tr>
- </thead>
+<thead>
+<tr class="header">
+<th style="text-align: center;" data-quarto-table-cell-role="th">site</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">year</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">plot_name</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">tree_count</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">density</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">mean_height_cm</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">sd_height</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">mean_diameter_cm</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">sd_diameter</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">mean_biomass</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">sd_biomass</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">mean_carbon_Mg_ha</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">sd_carbon_Mg_ha</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">std_error</th>
+</tr>
+</thead>
 <tbody>
-  <tr>
-   <td style="text-align:center;"> A </td>
-   <td style="text-align:center;"> 2010 </td>
-   <td style="text-align:center;"> Sample_Plot#01 </td>
-   <td style="text-align:center;"> 86 </td>
-   <td style="text-align:center;"> 0.5584416 </td>
-   <td style="text-align:center;"> 86.17442 </td>
-   <td style="text-align:center;"> 30.92693 </td>
-   <td style="text-align:center;"> 75.54651 </td>
-   <td style="text-align:center;"> 39.19293 </td>
-   <td style="text-align:center;"> 0.9657442 </td>
-   <td style="text-align:center;"> 1.0947549 </td>
-   <td style="text-align:center;"> 0.0627558 </td>
-   <td style="text-align:center;"> 0.0710911 </td>
-   <td style="text-align:center;"> 0.0076660 </td>
-  </tr>
-  <tr>
-   <td style="text-align:center;"> A </td>
-   <td style="text-align:center;"> 2010 </td>
-   <td style="text-align:center;"> Sample_Plot#02 </td>
-   <td style="text-align:center;"> 122 </td>
-   <td style="text-align:center;"> 0.7922078 </td>
-   <td style="text-align:center;"> 95.46721 </td>
-   <td style="text-align:center;"> 30.63547 </td>
-   <td style="text-align:center;"> 80.65574 </td>
-   <td style="text-align:center;"> 47.28020 </td>
-   <td style="text-align:center;"> 1.2030410 </td>
-   <td style="text-align:center;"> 2.4984078 </td>
-   <td style="text-align:center;"> 0.0781475 </td>
-   <td style="text-align:center;"> 0.1622883 </td>
-   <td style="text-align:center;"> 0.0146929 </td>
-  </tr>
-  <tr>
-   <td style="text-align:center;"> A </td>
-   <td style="text-align:center;"> 2010 </td>
-   <td style="text-align:center;"> Sample_Plot#03 </td>
-   <td style="text-align:center;"> 110 </td>
-   <td style="text-align:center;"> 0.7142857 </td>
-   <td style="text-align:center;"> 91.60000 </td>
-   <td style="text-align:center;"> 29.65063 </td>
-   <td style="text-align:center;"> 73.37273 </td>
-   <td style="text-align:center;"> 39.87684 </td>
-   <td style="text-align:center;"> 0.9327545 </td>
-   <td style="text-align:center;"> 1.2939229 </td>
-   <td style="text-align:center;"> 0.0605818 </td>
-   <td style="text-align:center;"> 0.0840624 </td>
-   <td style="text-align:center;"> 0.0080150 </td>
-  </tr>
-  <tr>
-   <td style="text-align:center;"> A </td>
-   <td style="text-align:center;"> 2010 </td>
-   <td style="text-align:center;"> Sample_Plot#04 </td>
-   <td style="text-align:center;"> 96 </td>
-   <td style="text-align:center;"> 0.6233766 </td>
-   <td style="text-align:center;"> 75.52083 </td>
-   <td style="text-align:center;"> 29.07304 </td>
-   <td style="text-align:center;"> 61.43750 </td>
-   <td style="text-align:center;"> 32.39487 </td>
-   <td style="text-align:center;"> 0.6255729 </td>
-   <td style="text-align:center;"> 0.7274552 </td>
-   <td style="text-align:center;"> 0.0406354 </td>
-   <td style="text-align:center;"> 0.0472439 </td>
-   <td style="text-align:center;"> 0.0048218 </td>
-  </tr>
-  <tr>
-   <td style="text-align:center;"> A </td>
-   <td style="text-align:center;"> 2010 </td>
-   <td style="text-align:center;"> Sample_Plot#05 </td>
-   <td style="text-align:center;"> 84 </td>
-   <td style="text-align:center;"> 0.5454545 </td>
-   <td style="text-align:center;"> 110.82143 </td>
-   <td style="text-align:center;"> 34.41076 </td>
-   <td style="text-align:center;"> 84.08333 </td>
-   <td style="text-align:center;"> 50.58720 </td>
-   <td style="text-align:center;"> 1.3287024 </td>
-   <td style="text-align:center;"> 2.2536581 </td>
-   <td style="text-align:center;"> 0.0863095 </td>
-   <td style="text-align:center;"> 0.1463794 </td>
-   <td style="text-align:center;"> 0.0159713 </td>
-  </tr>
-  <tr>
-   <td style="text-align:center;"> A </td>
-   <td style="text-align:center;"> 2010 </td>
-   <td style="text-align:center;"> Sample_Plot#06 </td>
-   <td style="text-align:center;"> 107 </td>
-   <td style="text-align:center;"> 0.6948052 </td>
-   <td style="text-align:center;"> 77.53271 </td>
-   <td style="text-align:center;"> 26.49504 </td>
-   <td style="text-align:center;"> 63.10280 </td>
-   <td style="text-align:center;"> 34.77798 </td>
-   <td style="text-align:center;"> 0.6768411 </td>
-   <td style="text-align:center;"> 0.7745304 </td>
-   <td style="text-align:center;"> 0.0439720 </td>
-   <td style="text-align:center;"> 0.0503125 </td>
-   <td style="text-align:center;"> 0.0048639 </td>
-  </tr>
-  <tr>
-   <td style="text-align:center;"> A </td>
-   <td style="text-align:center;"> 2010 </td>
-   <td style="text-align:center;"> Sample_Plot#07 </td>
-   <td style="text-align:center;"> 141 </td>
-   <td style="text-align:center;"> 0.9155844 </td>
-   <td style="text-align:center;"> 76.63121 </td>
-   <td style="text-align:center;"> 29.29222 </td>
-   <td style="text-align:center;"> 66.66667 </td>
-   <td style="text-align:center;"> 46.99281 </td>
-   <td style="text-align:center;"> 0.9031135 </td>
-   <td style="text-align:center;"> 1.7259408 </td>
-   <td style="text-align:center;"> 0.0586809 </td>
-   <td style="text-align:center;"> 0.1121233 </td>
-   <td style="text-align:center;"> 0.0094425 </td>
-  </tr>
-  <tr>
-   <td style="text-align:center;"> A </td>
-   <td style="text-align:center;"> 2017 </td>
-   <td style="text-align:center;"> Sample_Plot#08 </td>
-   <td style="text-align:center;"> 203 </td>
-   <td style="text-align:center;"> 1.3181818 </td>
-   <td style="text-align:center;"> 101.35961 </td>
-   <td style="text-align:center;"> 13.85690 </td>
-   <td style="text-align:center;"> 55.50739 </td>
-   <td style="text-align:center;"> 25.61353 </td>
-   <td style="text-align:center;"> 0.4798522 </td>
-   <td style="text-align:center;"> 1.3159980 </td>
-   <td style="text-align:center;"> 0.0311379 </td>
-   <td style="text-align:center;"> 0.0854794 </td>
-   <td style="text-align:center;"> 0.0059995 </td>
-  </tr>
-  <tr>
-   <td style="text-align:center;"> A </td>
-   <td style="text-align:center;"> 2017 </td>
-   <td style="text-align:center;"> Sample_Plot#09 </td>
-   <td style="text-align:center;"> 202 </td>
-   <td style="text-align:center;"> 1.3116883 </td>
-   <td style="text-align:center;"> 104.97525 </td>
-   <td style="text-align:center;"> 15.69816 </td>
-   <td style="text-align:center;"> 60.95545 </td>
-   <td style="text-align:center;"> 20.31035 </td>
-   <td style="text-align:center;"> 0.5216238 </td>
-   <td style="text-align:center;"> 0.6412533 </td>
-   <td style="text-align:center;"> 0.0338564 </td>
-   <td style="text-align:center;"> 0.0416694 </td>
-   <td style="text-align:center;"> 0.0029319 </td>
-  </tr>
-  <tr>
-   <td style="text-align:center;"> A </td>
-   <td style="text-align:center;"> 2017 </td>
-   <td style="text-align:center;"> Sample_Plot#12 </td>
-   <td style="text-align:center;"> 298 </td>
-   <td style="text-align:center;"> 1.9350649 </td>
-   <td style="text-align:center;"> 96.80872 </td>
-   <td style="text-align:center;"> 15.26600 </td>
-   <td style="text-align:center;"> 49.37919 </td>
-   <td style="text-align:center;"> 14.31560 </td>
-   <td style="text-align:center;"> 0.3211477 </td>
-   <td style="text-align:center;"> 0.2032983 </td>
-   <td style="text-align:center;"> 0.0208591 </td>
-   <td style="text-align:center;"> 0.0132004 </td>
-   <td style="text-align:center;"> 0.0007647 </td>
-  </tr>
+<tr class="odd">
+<td style="text-align: center;">A</td>
+<td style="text-align: center;">2010</td>
+<td style="text-align: center;">Sample_Plot#01</td>
+<td style="text-align: center;">86</td>
+<td style="text-align: center;">0.5584416</td>
+<td style="text-align: center;">86.17442</td>
+<td style="text-align: center;">30.92693</td>
+<td style="text-align: center;">75.54651</td>
+<td style="text-align: center;">39.19293</td>
+<td style="text-align: center;">0.9657442</td>
+<td style="text-align: center;">1.0947549</td>
+<td style="text-align: center;">0.0627558</td>
+<td style="text-align: center;">0.0710911</td>
+<td style="text-align: center;">0.0076660</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">A</td>
+<td style="text-align: center;">2010</td>
+<td style="text-align: center;">Sample_Plot#02</td>
+<td style="text-align: center;">122</td>
+<td style="text-align: center;">0.7922078</td>
+<td style="text-align: center;">95.46721</td>
+<td style="text-align: center;">30.63547</td>
+<td style="text-align: center;">80.65574</td>
+<td style="text-align: center;">47.28020</td>
+<td style="text-align: center;">1.2030410</td>
+<td style="text-align: center;">2.4984078</td>
+<td style="text-align: center;">0.0781475</td>
+<td style="text-align: center;">0.1622883</td>
+<td style="text-align: center;">0.0146929</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">A</td>
+<td style="text-align: center;">2010</td>
+<td style="text-align: center;">Sample_Plot#03</td>
+<td style="text-align: center;">110</td>
+<td style="text-align: center;">0.7142857</td>
+<td style="text-align: center;">91.60000</td>
+<td style="text-align: center;">29.65063</td>
+<td style="text-align: center;">73.37273</td>
+<td style="text-align: center;">39.87684</td>
+<td style="text-align: center;">0.9327545</td>
+<td style="text-align: center;">1.2939229</td>
+<td style="text-align: center;">0.0605818</td>
+<td style="text-align: center;">0.0840624</td>
+<td style="text-align: center;">0.0080150</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">A</td>
+<td style="text-align: center;">2010</td>
+<td style="text-align: center;">Sample_Plot#04</td>
+<td style="text-align: center;">96</td>
+<td style="text-align: center;">0.6233766</td>
+<td style="text-align: center;">75.52083</td>
+<td style="text-align: center;">29.07304</td>
+<td style="text-align: center;">61.43750</td>
+<td style="text-align: center;">32.39487</td>
+<td style="text-align: center;">0.6255729</td>
+<td style="text-align: center;">0.7274552</td>
+<td style="text-align: center;">0.0406354</td>
+<td style="text-align: center;">0.0472439</td>
+<td style="text-align: center;">0.0048218</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">A</td>
+<td style="text-align: center;">2010</td>
+<td style="text-align: center;">Sample_Plot#05</td>
+<td style="text-align: center;">84</td>
+<td style="text-align: center;">0.5454545</td>
+<td style="text-align: center;">110.82143</td>
+<td style="text-align: center;">34.41076</td>
+<td style="text-align: center;">84.08333</td>
+<td style="text-align: center;">50.58720</td>
+<td style="text-align: center;">1.3287024</td>
+<td style="text-align: center;">2.2536581</td>
+<td style="text-align: center;">0.0863095</td>
+<td style="text-align: center;">0.1463794</td>
+<td style="text-align: center;">0.0159713</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">A</td>
+<td style="text-align: center;">2010</td>
+<td style="text-align: center;">Sample_Plot#06</td>
+<td style="text-align: center;">107</td>
+<td style="text-align: center;">0.6948052</td>
+<td style="text-align: center;">77.53271</td>
+<td style="text-align: center;">26.49504</td>
+<td style="text-align: center;">63.10280</td>
+<td style="text-align: center;">34.77798</td>
+<td style="text-align: center;">0.6768411</td>
+<td style="text-align: center;">0.7745304</td>
+<td style="text-align: center;">0.0439720</td>
+<td style="text-align: center;">0.0503125</td>
+<td style="text-align: center;">0.0048639</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">A</td>
+<td style="text-align: center;">2010</td>
+<td style="text-align: center;">Sample_Plot#07</td>
+<td style="text-align: center;">141</td>
+<td style="text-align: center;">0.9155844</td>
+<td style="text-align: center;">76.63121</td>
+<td style="text-align: center;">29.29222</td>
+<td style="text-align: center;">66.66667</td>
+<td style="text-align: center;">46.99281</td>
+<td style="text-align: center;">0.9031135</td>
+<td style="text-align: center;">1.7259408</td>
+<td style="text-align: center;">0.0586809</td>
+<td style="text-align: center;">0.1121233</td>
+<td style="text-align: center;">0.0094425</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">A</td>
+<td style="text-align: center;">2017</td>
+<td style="text-align: center;">Sample_Plot#08</td>
+<td style="text-align: center;">203</td>
+<td style="text-align: center;">1.3181818</td>
+<td style="text-align: center;">101.35961</td>
+<td style="text-align: center;">13.85690</td>
+<td style="text-align: center;">55.50739</td>
+<td style="text-align: center;">25.61353</td>
+<td style="text-align: center;">0.4798522</td>
+<td style="text-align: center;">1.3159980</td>
+<td style="text-align: center;">0.0311379</td>
+<td style="text-align: center;">0.0854794</td>
+<td style="text-align: center;">0.0059995</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">A</td>
+<td style="text-align: center;">2017</td>
+<td style="text-align: center;">Sample_Plot#09</td>
+<td style="text-align: center;">202</td>
+<td style="text-align: center;">1.3116883</td>
+<td style="text-align: center;">104.97525</td>
+<td style="text-align: center;">15.69816</td>
+<td style="text-align: center;">60.95545</td>
+<td style="text-align: center;">20.31035</td>
+<td style="text-align: center;">0.5216238</td>
+<td style="text-align: center;">0.6412533</td>
+<td style="text-align: center;">0.0338564</td>
+<td style="text-align: center;">0.0416694</td>
+<td style="text-align: center;">0.0029319</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">A</td>
+<td style="text-align: center;">2017</td>
+<td style="text-align: center;">Sample_Plot#12</td>
+<td style="text-align: center;">298</td>
+<td style="text-align: center;">1.9350649</td>
+<td style="text-align: center;">96.80872</td>
+<td style="text-align: center;">15.26600</td>
+<td style="text-align: center;">49.37919</td>
+<td style="text-align: center;">14.31560</td>
+<td style="text-align: center;">0.3211477</td>
+<td style="text-align: center;">0.2032983</td>
+<td style="text-align: center;">0.0208591</td>
+<td style="text-align: center;">0.0132004</td>
+<td style="text-align: center;">0.0007647</td>
+</tr>
 </tbody>
 </table>
+
 
 </div>
 <div class="cell-output cell-output-stdout">
@@ -597,219 +545,213 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-
-</div>
-<div class="cell">
-
-</div>
-<div class="cell">
 <div class="cell-output-display">
-
-<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<table class="table table-sm table-striped small" data-quarto-postprocess="true">
 <caption>Table 3. Estimated number of trees per plot</caption>
- <thead>
-  <tr>
-   <th style="text-align:center;"> site </th>
-   <th style="text-align:center;"> year </th>
-   <th style="text-align:center;"> plot_name </th>
-   <th style="text-align:center;"> tree_count </th>
-   <th style="text-align:center;"> power </th>
-   <th style="text-align:center;"> difference </th>
-   <th style="text-align:center;"> density </th>
-   <th style="text-align:center;"> mean_height_cm </th>
-   <th style="text-align:center;"> sd_height </th>
-   <th style="text-align:center;"> mean_diameter_cm </th>
-   <th style="text-align:center;"> sd_diameter </th>
-   <th style="text-align:center;"> mean_biomass </th>
-   <th style="text-align:center;"> sd_biomass </th>
-   <th style="text-align:center;"> mean_carbon_Mg_ha </th>
-   <th style="text-align:center;"> sd_carbon_Mg_ha </th>
-   <th style="text-align:center;"> std_error </th>
-  </tr>
- </thead>
+<thead>
+<tr class="header">
+<th style="text-align: center;" data-quarto-table-cell-role="th">site</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">year</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">plot_name</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">tree_count</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">power</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">difference</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">density</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">mean_height_cm</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">sd_height</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">mean_diameter_cm</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">sd_diameter</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">mean_biomass</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">sd_biomass</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">mean_carbon_Mg_ha</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">sd_carbon_Mg_ha</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">std_error</th>
+</tr>
+</thead>
 <tbody>
-  <tr>
-   <td style="text-align:center;"> A </td>
-   <td style="text-align:center;"> 2010 </td>
-   <td style="text-align:center;"> Sample_Plot#01 </td>
-   <td style="text-align:center;"> 86 </td>
-   <td style="text-align:center;background-color: yellow !important;"> 14.5 </td>
-   <td style="text-align:center;background-color: lightgreen !important;"> 83.1 </td>
-   <td style="text-align:center;"> 0.5584416 </td>
-   <td style="text-align:center;"> 86.17442 </td>
-   <td style="text-align:center;"> 30.92693 </td>
-   <td style="text-align:center;"> 75.54651 </td>
-   <td style="text-align:center;"> 39.19293 </td>
-   <td style="text-align:center;"> 0.9657442 </td>
-   <td style="text-align:center;"> 1.0947549 </td>
-   <td style="text-align:center;"> 0.0627558 </td>
-   <td style="text-align:center;"> 0.0710911 </td>
-   <td style="text-align:center;"> 0.0076660 </td>
-  </tr>
-  <tr>
-   <td style="text-align:center;"> A </td>
-   <td style="text-align:center;"> 2010 </td>
-   <td style="text-align:center;"> Sample_Plot#02 </td>
-   <td style="text-align:center;"> 122 </td>
-   <td style="text-align:center;background-color: yellow !important;"> 46.4 </td>
-   <td style="text-align:center;background-color: lightgreen !important;"> 62.0 </td>
-   <td style="text-align:center;"> 0.7922078 </td>
-   <td style="text-align:center;"> 95.46721 </td>
-   <td style="text-align:center;"> 30.63547 </td>
-   <td style="text-align:center;"> 80.65574 </td>
-   <td style="text-align:center;"> 47.28020 </td>
-   <td style="text-align:center;"> 1.2030410 </td>
-   <td style="text-align:center;"> 2.4984078 </td>
-   <td style="text-align:center;"> 0.0781475 </td>
-   <td style="text-align:center;"> 0.1622883 </td>
-   <td style="text-align:center;"> 0.0146929 </td>
-  </tr>
-  <tr>
-   <td style="text-align:center;"> A </td>
-   <td style="text-align:center;"> 2010 </td>
-   <td style="text-align:center;"> Sample_Plot#03 </td>
-   <td style="text-align:center;"> 110 </td>
-   <td style="text-align:center;background-color: yellow !important;"> 21.2 </td>
-   <td style="text-align:center;background-color: lightgreen !important;"> 80.7 </td>
-   <td style="text-align:center;"> 0.7142857 </td>
-   <td style="text-align:center;"> 91.60000 </td>
-   <td style="text-align:center;"> 29.65063 </td>
-   <td style="text-align:center;"> 73.37273 </td>
-   <td style="text-align:center;"> 39.87684 </td>
-   <td style="text-align:center;"> 0.9327545 </td>
-   <td style="text-align:center;"> 1.2939229 </td>
-   <td style="text-align:center;"> 0.0605818 </td>
-   <td style="text-align:center;"> 0.0840624 </td>
-   <td style="text-align:center;"> 0.0080150 </td>
-  </tr>
-  <tr>
-   <td style="text-align:center;"> A </td>
-   <td style="text-align:center;"> 2010 </td>
-   <td style="text-align:center;"> Sample_Plot#04 </td>
-   <td style="text-align:center;"> 96 </td>
-   <td style="text-align:center;background-color: yellow !important;"> 15.1 </td>
-   <td style="text-align:center;background-color: lightgreen !important;"> 84.3 </td>
-   <td style="text-align:center;"> 0.6233766 </td>
-   <td style="text-align:center;"> 75.52083 </td>
-   <td style="text-align:center;"> 29.07304 </td>
-   <td style="text-align:center;"> 61.43750 </td>
-   <td style="text-align:center;"> 32.39487 </td>
-   <td style="text-align:center;"> 0.6255729 </td>
-   <td style="text-align:center;"> 0.7274552 </td>
-   <td style="text-align:center;"> 0.0406354 </td>
-   <td style="text-align:center;"> 0.0472439 </td>
-   <td style="text-align:center;"> 0.0048218 </td>
-  </tr>
-  <tr>
-   <td style="text-align:center;"> A </td>
-   <td style="text-align:center;"> 2010 </td>
-   <td style="text-align:center;"> Sample_Plot#05 </td>
-   <td style="text-align:center;"> 84 </td>
-   <td style="text-align:center;background-color: yellow !important;"> 31.5 </td>
-   <td style="text-align:center;background-color: lightgreen !important;"> 62.5 </td>
-   <td style="text-align:center;"> 0.5454545 </td>
-   <td style="text-align:center;"> 110.82143 </td>
-   <td style="text-align:center;"> 34.41076 </td>
-   <td style="text-align:center;"> 84.08333 </td>
-   <td style="text-align:center;"> 50.58720 </td>
-   <td style="text-align:center;"> 1.3287024 </td>
-   <td style="text-align:center;"> 2.2536581 </td>
-   <td style="text-align:center;"> 0.0863095 </td>
-   <td style="text-align:center;"> 0.1463794 </td>
-   <td style="text-align:center;"> 0.0159713 </td>
-  </tr>
-  <tr>
-   <td style="text-align:center;"> A </td>
-   <td style="text-align:center;"> 2010 </td>
-   <td style="text-align:center;"> Sample_Plot#06 </td>
-   <td style="text-align:center;"> 107 </td>
-   <td style="text-align:center;background-color: yellow !important;"> 14.7 </td>
-   <td style="text-align:center;background-color: lightgreen !important;"> 86.3 </td>
-   <td style="text-align:center;"> 0.6948052 </td>
-   <td style="text-align:center;"> 77.53271 </td>
-   <td style="text-align:center;"> 26.49504 </td>
-   <td style="text-align:center;"> 63.10280 </td>
-   <td style="text-align:center;"> 34.77798 </td>
-   <td style="text-align:center;"> 0.6768411 </td>
-   <td style="text-align:center;"> 0.7745304 </td>
-   <td style="text-align:center;"> 0.0439720 </td>
-   <td style="text-align:center;"> 0.0503125 </td>
-   <td style="text-align:center;"> 0.0048639 </td>
-  </tr>
-  <tr>
-   <td style="text-align:center;"> A </td>
-   <td style="text-align:center;"> 2010 </td>
-   <td style="text-align:center;"> Sample_Plot#07 </td>
-   <td style="text-align:center;"> 141 </td>
-   <td style="text-align:center;background-color: yellow !important;"> 39.4 </td>
-   <td style="text-align:center;background-color: lightgreen !important;"> 72.1 </td>
-   <td style="text-align:center;"> 0.9155844 </td>
-   <td style="text-align:center;"> 76.63121 </td>
-   <td style="text-align:center;"> 29.29222 </td>
-   <td style="text-align:center;"> 66.66667 </td>
-   <td style="text-align:center;"> 46.99281 </td>
-   <td style="text-align:center;"> 0.9031135 </td>
-   <td style="text-align:center;"> 1.7259408 </td>
-   <td style="text-align:center;"> 0.0586809 </td>
-   <td style="text-align:center;"> 0.1121233 </td>
-   <td style="text-align:center;"> 0.0094425 </td>
-  </tr>
-  <tr>
-   <td style="text-align:center;"> A </td>
-   <td style="text-align:center;"> 2017 </td>
-   <td style="text-align:center;"> Sample_Plot#08 </td>
-   <td style="text-align:center;"> 203 </td>
-   <td style="text-align:center;background-color: yellow !important;"> 78.7 </td>
-   <td style="text-align:center;background-color: lightgreen !important;"> 61.2 </td>
-   <td style="text-align:center;"> 1.3181818 </td>
-   <td style="text-align:center;"> 101.35961 </td>
-   <td style="text-align:center;"> 13.85690 </td>
-   <td style="text-align:center;"> 55.50739 </td>
-   <td style="text-align:center;"> 25.61353 </td>
-   <td style="text-align:center;"> 0.4798522 </td>
-   <td style="text-align:center;"> 1.3159980 </td>
-   <td style="text-align:center;"> 0.0311379 </td>
-   <td style="text-align:center;"> 0.0854794 </td>
-   <td style="text-align:center;"> 0.0059995 </td>
-  </tr>
-  <tr>
-   <td style="text-align:center;"> A </td>
-   <td style="text-align:center;"> 2017 </td>
-   <td style="text-align:center;"> Sample_Plot#09 </td>
-   <td style="text-align:center;"> 202 </td>
-   <td style="text-align:center;background-color: yellow !important;"> 16.9 </td>
-   <td style="text-align:center;background-color: lightgreen !important;"> 91.6 </td>
-   <td style="text-align:center;"> 1.3116883 </td>
-   <td style="text-align:center;"> 104.97525 </td>
-   <td style="text-align:center;"> 15.69816 </td>
-   <td style="text-align:center;"> 60.95545 </td>
-   <td style="text-align:center;"> 20.31035 </td>
-   <td style="text-align:center;"> 0.5216238 </td>
-   <td style="text-align:center;"> 0.6412533 </td>
-   <td style="text-align:center;"> 0.0338564 </td>
-   <td style="text-align:center;"> 0.0416694 </td>
-   <td style="text-align:center;"> 0.0029319 </td>
-  </tr>
-  <tr>
-   <td style="text-align:center;"> A </td>
-   <td style="text-align:center;"> 2017 </td>
-   <td style="text-align:center;"> Sample_Plot#12 </td>
-   <td style="text-align:center;"> 298 </td>
-   <td style="text-align:center;background-color: yellow !important;"> 5.4 </td>
-   <td style="text-align:center;background-color: lightgreen !important;"> 98.2 </td>
-   <td style="text-align:center;"> 1.9350649 </td>
-   <td style="text-align:center;"> 96.80872 </td>
-   <td style="text-align:center;"> 15.26600 </td>
-   <td style="text-align:center;"> 49.37919 </td>
-   <td style="text-align:center;"> 14.31560 </td>
-   <td style="text-align:center;"> 0.3211477 </td>
-   <td style="text-align:center;"> 0.2032983 </td>
-   <td style="text-align:center;"> 0.0208591 </td>
-   <td style="text-align:center;"> 0.0132004 </td>
-   <td style="text-align:center;"> 0.0007647 </td>
-  </tr>
+<tr class="odd">
+<td style="text-align: center;">A</td>
+<td style="text-align: center;">2010</td>
+<td style="text-align: center;">Sample_Plot#01</td>
+<td style="text-align: center;">86</td>
+<td style="text-align: center; background-color: yellow !important;">14.5</td>
+<td style="text-align: center; background-color: lightgreen !important;">83.1</td>
+<td style="text-align: center;">0.5584416</td>
+<td style="text-align: center;">86.17442</td>
+<td style="text-align: center;">30.92693</td>
+<td style="text-align: center;">75.54651</td>
+<td style="text-align: center;">39.19293</td>
+<td style="text-align: center;">0.9657442</td>
+<td style="text-align: center;">1.0947549</td>
+<td style="text-align: center;">0.0627558</td>
+<td style="text-align: center;">0.0710911</td>
+<td style="text-align: center;">0.0076660</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">A</td>
+<td style="text-align: center;">2010</td>
+<td style="text-align: center;">Sample_Plot#02</td>
+<td style="text-align: center;">122</td>
+<td style="text-align: center; background-color: yellow !important;">46.4</td>
+<td style="text-align: center; background-color: lightgreen !important;">62.0</td>
+<td style="text-align: center;">0.7922078</td>
+<td style="text-align: center;">95.46721</td>
+<td style="text-align: center;">30.63547</td>
+<td style="text-align: center;">80.65574</td>
+<td style="text-align: center;">47.28020</td>
+<td style="text-align: center;">1.2030410</td>
+<td style="text-align: center;">2.4984078</td>
+<td style="text-align: center;">0.0781475</td>
+<td style="text-align: center;">0.1622883</td>
+<td style="text-align: center;">0.0146929</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">A</td>
+<td style="text-align: center;">2010</td>
+<td style="text-align: center;">Sample_Plot#03</td>
+<td style="text-align: center;">110</td>
+<td style="text-align: center; background-color: yellow !important;">21.2</td>
+<td style="text-align: center; background-color: lightgreen !important;">80.7</td>
+<td style="text-align: center;">0.7142857</td>
+<td style="text-align: center;">91.60000</td>
+<td style="text-align: center;">29.65063</td>
+<td style="text-align: center;">73.37273</td>
+<td style="text-align: center;">39.87684</td>
+<td style="text-align: center;">0.9327545</td>
+<td style="text-align: center;">1.2939229</td>
+<td style="text-align: center;">0.0605818</td>
+<td style="text-align: center;">0.0840624</td>
+<td style="text-align: center;">0.0080150</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">A</td>
+<td style="text-align: center;">2010</td>
+<td style="text-align: center;">Sample_Plot#04</td>
+<td style="text-align: center;">96</td>
+<td style="text-align: center; background-color: yellow !important;">15.1</td>
+<td style="text-align: center; background-color: lightgreen !important;">84.3</td>
+<td style="text-align: center;">0.6233766</td>
+<td style="text-align: center;">75.52083</td>
+<td style="text-align: center;">29.07304</td>
+<td style="text-align: center;">61.43750</td>
+<td style="text-align: center;">32.39487</td>
+<td style="text-align: center;">0.6255729</td>
+<td style="text-align: center;">0.7274552</td>
+<td style="text-align: center;">0.0406354</td>
+<td style="text-align: center;">0.0472439</td>
+<td style="text-align: center;">0.0048218</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">A</td>
+<td style="text-align: center;">2010</td>
+<td style="text-align: center;">Sample_Plot#05</td>
+<td style="text-align: center;">84</td>
+<td style="text-align: center; background-color: yellow !important;">31.5</td>
+<td style="text-align: center; background-color: lightgreen !important;">62.5</td>
+<td style="text-align: center;">0.5454545</td>
+<td style="text-align: center;">110.82143</td>
+<td style="text-align: center;">34.41076</td>
+<td style="text-align: center;">84.08333</td>
+<td style="text-align: center;">50.58720</td>
+<td style="text-align: center;">1.3287024</td>
+<td style="text-align: center;">2.2536581</td>
+<td style="text-align: center;">0.0863095</td>
+<td style="text-align: center;">0.1463794</td>
+<td style="text-align: center;">0.0159713</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">A</td>
+<td style="text-align: center;">2010</td>
+<td style="text-align: center;">Sample_Plot#06</td>
+<td style="text-align: center;">107</td>
+<td style="text-align: center; background-color: yellow !important;">14.7</td>
+<td style="text-align: center; background-color: lightgreen !important;">86.3</td>
+<td style="text-align: center;">0.6948052</td>
+<td style="text-align: center;">77.53271</td>
+<td style="text-align: center;">26.49504</td>
+<td style="text-align: center;">63.10280</td>
+<td style="text-align: center;">34.77798</td>
+<td style="text-align: center;">0.6768411</td>
+<td style="text-align: center;">0.7745304</td>
+<td style="text-align: center;">0.0439720</td>
+<td style="text-align: center;">0.0503125</td>
+<td style="text-align: center;">0.0048639</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">A</td>
+<td style="text-align: center;">2010</td>
+<td style="text-align: center;">Sample_Plot#07</td>
+<td style="text-align: center;">141</td>
+<td style="text-align: center; background-color: yellow !important;">39.4</td>
+<td style="text-align: center; background-color: lightgreen !important;">72.1</td>
+<td style="text-align: center;">0.9155844</td>
+<td style="text-align: center;">76.63121</td>
+<td style="text-align: center;">29.29222</td>
+<td style="text-align: center;">66.66667</td>
+<td style="text-align: center;">46.99281</td>
+<td style="text-align: center;">0.9031135</td>
+<td style="text-align: center;">1.7259408</td>
+<td style="text-align: center;">0.0586809</td>
+<td style="text-align: center;">0.1121233</td>
+<td style="text-align: center;">0.0094425</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">A</td>
+<td style="text-align: center;">2017</td>
+<td style="text-align: center;">Sample_Plot#08</td>
+<td style="text-align: center;">203</td>
+<td style="text-align: center; background-color: yellow !important;">78.7</td>
+<td style="text-align: center; background-color: lightgreen !important;">61.2</td>
+<td style="text-align: center;">1.3181818</td>
+<td style="text-align: center;">101.35961</td>
+<td style="text-align: center;">13.85690</td>
+<td style="text-align: center;">55.50739</td>
+<td style="text-align: center;">25.61353</td>
+<td style="text-align: center;">0.4798522</td>
+<td style="text-align: center;">1.3159980</td>
+<td style="text-align: center;">0.0311379</td>
+<td style="text-align: center;">0.0854794</td>
+<td style="text-align: center;">0.0059995</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">A</td>
+<td style="text-align: center;">2017</td>
+<td style="text-align: center;">Sample_Plot#09</td>
+<td style="text-align: center;">202</td>
+<td style="text-align: center; background-color: yellow !important;">16.9</td>
+<td style="text-align: center; background-color: lightgreen !important;">91.6</td>
+<td style="text-align: center;">1.3116883</td>
+<td style="text-align: center;">104.97525</td>
+<td style="text-align: center;">15.69816</td>
+<td style="text-align: center;">60.95545</td>
+<td style="text-align: center;">20.31035</td>
+<td style="text-align: center;">0.5216238</td>
+<td style="text-align: center;">0.6412533</td>
+<td style="text-align: center;">0.0338564</td>
+<td style="text-align: center;">0.0416694</td>
+<td style="text-align: center;">0.0029319</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">A</td>
+<td style="text-align: center;">2017</td>
+<td style="text-align: center;">Sample_Plot#12</td>
+<td style="text-align: center;">298</td>
+<td style="text-align: center; background-color: yellow !important;">5.4</td>
+<td style="text-align: center; background-color: lightgreen !important;">98.2</td>
+<td style="text-align: center;">1.9350649</td>
+<td style="text-align: center;">96.80872</td>
+<td style="text-align: center;">15.26600</td>
+<td style="text-align: center;">49.37919</td>
+<td style="text-align: center;">14.31560</td>
+<td style="text-align: center;">0.3211477</td>
+<td style="text-align: center;">0.2032983</td>
+<td style="text-align: center;">0.0208591</td>
+<td style="text-align: center;">0.0132004</td>
+<td style="text-align: center;">0.0007647</td>
+</tr>
 </tbody>
 </table>
+
 
 </div>
 <div class="cell-output cell-output-stdout">
@@ -874,210 +816,207 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  new <span class="ot">&lt;-</span> <span class="fu">round</span>(power_test<span class="sc">$</span>n,<span class="dv">1</span>)            </span>
 <span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>  new_vector2 <span class="ot">&lt;-</span> <span class="fu">c</span>(new_vector2, new)}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
-
-</div>
 </section>
 <section id="step-7-c" class="level4">
 <h4 class="anchored" data-anchor-id="step-7-c">Step 7 (c)</h4>
 <p>Create a table (#4) grouping per plantation year</p>
 <div class="cell">
 <div class="cell-output-display">
-
-<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<table class="table table-sm table-striped small" data-quarto-postprocess="true">
 <caption>Table 4. Estimated number of sample plots per project</caption>
- <thead>
-  <tr>
-   <th style="text-align:center;"> site </th>
-   <th style="text-align:center;"> year </th>
-   <th style="text-align:center;"> plot_count </th>
-   <th style="text-align:center;"> power </th>
-   <th style="text-align:center;"> tree_count </th>
-   <th style="text-align:center;"> density </th>
-   <th style="text-align:center;"> mean_height_cm </th>
-   <th style="text-align:center;"> sd_height_cm </th>
-   <th style="text-align:center;"> mean_diameter_cm </th>
-   <th style="text-align:center;"> sd_diameter_cm </th>
-   <th style="text-align:center;"> mean_biomass </th>
-   <th style="text-align:center;"> sd_biomass </th>
-   <th style="text-align:center;"> mean_tot_carbon_Mg_ha </th>
-   <th style="text-align:center;"> sd_tot_carbon_Mg_ha </th>
-   <th style="text-align:center;"> std_error </th>
-  </tr>
- </thead>
+<thead>
+<tr class="header">
+<th style="text-align: center;" data-quarto-table-cell-role="th">site</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">year</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">plot_count</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">power</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">tree_count</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">density</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">mean_height_cm</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">sd_height_cm</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">mean_diameter_cm</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">sd_diameter_cm</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">mean_biomass</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">sd_biomass</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">mean_tot_carbon_Mg_ha</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">sd_tot_carbon_Mg_ha</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">std_error</th>
+</tr>
+</thead>
 <tbody>
-  <tr>
-   <td style="text-align:center;"> A </td>
-   <td style="text-align:center;"> 2010 </td>
-   <td style="text-align:center;background-color: lightpink !important;"> 7 </td>
-   <td style="text-align:center;background-color: lightblue !important;"> 33.2 </td>
-   <td style="text-align:center;"> 746 </td>
-   <td style="text-align:center;"> 106.57143 </td>
-   <td style="text-align:center;"> 86.85523 </td>
-   <td style="text-align:center;"> 31.93930 </td>
-   <td style="text-align:center;"> 71.74397 </td>
-   <td style="text-align:center;"> 42.87782 </td>
-   <td style="text-align:center;"> 0.9435054 </td>
-   <td style="text-align:center;"> 1.6508646 </td>
-   <td style="text-align:center;"> 0.0612936 </td>
-   <td style="text-align:center;"> 0.1072349 </td>
-   <td style="text-align:center;"> 0.0405310 </td>
-  </tr>
-  <tr>
-   <td style="text-align:center;"> A </td>
-   <td style="text-align:center;"> 2017 </td>
-   <td style="text-align:center;background-color: lightpink !important;"> 18 </td>
-   <td style="text-align:center;background-color: lightblue !important;"> 16.7 </td>
-   <td style="text-align:center;"> 3467 </td>
-   <td style="text-align:center;"> 192.61111 </td>
-   <td style="text-align:center;"> 83.88232 </td>
-   <td style="text-align:center;"> 30.36364 </td>
-   <td style="text-align:center;"> 55.01183 </td>
-   <td style="text-align:center;"> 23.99012 </td>
-   <td style="text-align:center;"> 0.4539590 </td>
-   <td style="text-align:center;"> 0.5544686 </td>
-   <td style="text-align:center;"> 0.0294912 </td>
-   <td style="text-align:center;"> 0.0360131 </td>
-   <td style="text-align:center;"> 0.0084884 </td>
-  </tr>
-  <tr>
-   <td style="text-align:center;"> A </td>
-   <td style="text-align:center;"> 2019 </td>
-   <td style="text-align:center;background-color: lightpink !important;"> 8 </td>
-   <td style="text-align:center;background-color: lightblue !important;"> 7.9 </td>
-   <td style="text-align:center;"> 998 </td>
-   <td style="text-align:center;"> 124.75000 </td>
-   <td style="text-align:center;"> 57.19940 </td>
-   <td style="text-align:center;"> 14.06031 </td>
-   <td style="text-align:center;"> 49.92084 </td>
-   <td style="text-align:center;"> 19.54099 </td>
-   <td style="text-align:center;"> 0.3543487 </td>
-   <td style="text-align:center;"> 0.2851646 </td>
-   <td style="text-align:center;"> 0.0230401 </td>
-   <td style="text-align:center;"> 0.0185163 </td>
-   <td style="text-align:center;"> 0.0065465 </td>
-  </tr>
-  <tr>
-   <td style="text-align:center;"> A </td>
-   <td style="text-align:center;"> 2020 </td>
-   <td style="text-align:center;background-color: lightpink !important;"> 46 </td>
-   <td style="text-align:center;background-color: lightblue !important;"> 9.6 </td>
-   <td style="text-align:center;"> 4956 </td>
-   <td style="text-align:center;"> 107.73913 </td>
-   <td style="text-align:center;"> 44.78834 </td>
-   <td style="text-align:center;"> 14.35749 </td>
-   <td style="text-align:center;"> 42.16889 </td>
-   <td style="text-align:center;"> 21.47614 </td>
-   <td style="text-align:center;"> 0.2729068 </td>
-   <td style="text-align:center;"> 0.2461327 </td>
-   <td style="text-align:center;"> 0.0177207 </td>
-   <td style="text-align:center;"> 0.0159968 </td>
-   <td style="text-align:center;"> 0.0023586 </td>
-  </tr>
-  <tr>
-   <td style="text-align:center;"> B </td>
-   <td style="text-align:center;"> 2015 </td>
-   <td style="text-align:center;background-color: lightpink !important;"> 7 </td>
-   <td style="text-align:center;background-color: lightblue !important;"> 30.9 </td>
-   <td style="text-align:center;"> 338 </td>
-   <td style="text-align:center;"> 48.28571 </td>
-   <td style="text-align:center;"> 106.13314 </td>
-   <td style="text-align:center;"> 43.46106 </td>
-   <td style="text-align:center;"> 139.73077 </td>
-   <td style="text-align:center;"> 80.25432 </td>
-   <td style="text-align:center;"> 3.8606509 </td>
-   <td style="text-align:center;"> 6.5105214 </td>
-   <td style="text-align:center;"> 0.1548225 </td>
-   <td style="text-align:center;"> 0.2601908 </td>
-   <td style="text-align:center;"> 0.0983429 </td>
-  </tr>
-  <tr>
-   <td style="text-align:center;"> B </td>
-   <td style="text-align:center;"> 2016 </td>
-   <td style="text-align:center;background-color: lightpink !important;"> 13 </td>
-   <td style="text-align:center;background-color: lightblue !important;"> 17.8 </td>
-   <td style="text-align:center;"> 629 </td>
-   <td style="text-align:center;"> 48.38462 </td>
-   <td style="text-align:center;"> 119.43402 </td>
-   <td style="text-align:center;"> 42.34072 </td>
-   <td style="text-align:center;"> 141.26709 </td>
-   <td style="text-align:center;"> 68.74564 </td>
-   <td style="text-align:center;"> 3.6142448 </td>
-   <td style="text-align:center;"> 4.5645982 </td>
-   <td style="text-align:center;"> 0.1447854 </td>
-   <td style="text-align:center;"> 0.1825147 </td>
-   <td style="text-align:center;"> 0.0506205 </td>
-  </tr>
-  <tr>
-   <td style="text-align:center;"> B </td>
-   <td style="text-align:center;"> 2017 </td>
-   <td style="text-align:center;background-color: lightpink !important;"> 11 </td>
-   <td style="text-align:center;background-color: lightblue !important;"> 18.6 </td>
-   <td style="text-align:center;"> 439 </td>
-   <td style="text-align:center;"> 39.90909 </td>
-   <td style="text-align:center;"> 96.05695 </td>
-   <td style="text-align:center;"> 37.24716 </td>
-   <td style="text-align:center;"> 95.98178 </td>
-   <td style="text-align:center;"> 47.34253 </td>
-   <td style="text-align:center;"> 1.6265604 </td>
-   <td style="text-align:center;"> 2.1047953 </td>
-   <td style="text-align:center;"> 0.0651936 </td>
-   <td style="text-align:center;"> 0.0844315 </td>
-   <td style="text-align:center;"> 0.0254570 </td>
-  </tr>
-  <tr>
-   <td style="text-align:center;"> B </td>
-   <td style="text-align:center;"> 2018 </td>
-   <td style="text-align:center;background-color: lightpink !important;"> 7 </td>
-   <td style="text-align:center;background-color: lightblue !important;"> 26.0 </td>
-   <td style="text-align:center;"> 207 </td>
-   <td style="text-align:center;"> 29.57143 </td>
-   <td style="text-align:center;"> 70.78261 </td>
-   <td style="text-align:center;"> 29.40900 </td>
-   <td style="text-align:center;"> 95.75362 </td>
-   <td style="text-align:center;"> 50.18463 </td>
-   <td style="text-align:center;"> 1.6328019 </td>
-   <td style="text-align:center;"> 2.5186589 </td>
-   <td style="text-align:center;"> 0.0655072 </td>
-   <td style="text-align:center;"> 0.1013626 </td>
-   <td style="text-align:center;"> 0.0383115 </td>
-  </tr>
-  <tr>
-   <td style="text-align:center;"> B </td>
-   <td style="text-align:center;"> 2019 </td>
-   <td style="text-align:center;background-color: lightpink !important;"> 7 </td>
-   <td style="text-align:center;background-color: lightblue !important;"> 21.3 </td>
-   <td style="text-align:center;"> 211 </td>
-   <td style="text-align:center;"> 30.14286 </td>
-   <td style="text-align:center;"> 68.88626 </td>
-   <td style="text-align:center;"> 26.19008 </td>
-   <td style="text-align:center;"> 83.73934 </td>
-   <td style="text-align:center;"> 50.64727 </td>
-   <td style="text-align:center;"> 1.3237915 </td>
-   <td style="text-align:center;"> 1.8395299 </td>
-   <td style="text-align:center;"> 0.0527962 </td>
-   <td style="text-align:center;"> 0.0737580 </td>
-   <td style="text-align:center;"> 0.0278779 </td>
-  </tr>
-  <tr>
-   <td style="text-align:center;"> B </td>
-   <td style="text-align:center;"> 2020 </td>
-   <td style="text-align:center;background-color: lightpink !important;"> 5 </td>
-   <td style="text-align:center;background-color: lightblue !important;"> 78.3 </td>
-   <td style="text-align:center;"> 119 </td>
-   <td style="text-align:center;"> 23.80000 </td>
-   <td style="text-align:center;"> 47.22689 </td>
-   <td style="text-align:center;"> 20.76113 </td>
-   <td style="text-align:center;"> 30.94118 </td>
-   <td style="text-align:center;"> 38.80553 </td>
-   <td style="text-align:center;"> 0.3295609 </td>
-   <td style="text-align:center;"> 0.8938315 </td>
-   <td style="text-align:center;"> 0.0131824 </td>
-   <td style="text-align:center;"> 0.0357533 </td>
-   <td style="text-align:center;"> 0.0159893 </td>
-  </tr>
+<tr class="odd">
+<td style="text-align: center;">A</td>
+<td style="text-align: center;">2010</td>
+<td style="text-align: center; background-color: lightpink !important;">7</td>
+<td style="text-align: center; background-color: lightblue !important;">33.2</td>
+<td style="text-align: center;">746</td>
+<td style="text-align: center;">106.57143</td>
+<td style="text-align: center;">86.85523</td>
+<td style="text-align: center;">31.93930</td>
+<td style="text-align: center;">71.74397</td>
+<td style="text-align: center;">42.87782</td>
+<td style="text-align: center;">0.9435054</td>
+<td style="text-align: center;">1.6508646</td>
+<td style="text-align: center;">0.0612936</td>
+<td style="text-align: center;">0.1072349</td>
+<td style="text-align: center;">0.0405310</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">A</td>
+<td style="text-align: center;">2017</td>
+<td style="text-align: center; background-color: lightpink !important;">18</td>
+<td style="text-align: center; background-color: lightblue !important;">16.7</td>
+<td style="text-align: center;">3467</td>
+<td style="text-align: center;">192.61111</td>
+<td style="text-align: center;">83.88232</td>
+<td style="text-align: center;">30.36364</td>
+<td style="text-align: center;">55.01183</td>
+<td style="text-align: center;">23.99012</td>
+<td style="text-align: center;">0.4539590</td>
+<td style="text-align: center;">0.5544686</td>
+<td style="text-align: center;">0.0294912</td>
+<td style="text-align: center;">0.0360131</td>
+<td style="text-align: center;">0.0084884</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">A</td>
+<td style="text-align: center;">2019</td>
+<td style="text-align: center; background-color: lightpink !important;">8</td>
+<td style="text-align: center; background-color: lightblue !important;">7.9</td>
+<td style="text-align: center;">998</td>
+<td style="text-align: center;">124.75000</td>
+<td style="text-align: center;">57.19940</td>
+<td style="text-align: center;">14.06031</td>
+<td style="text-align: center;">49.92084</td>
+<td style="text-align: center;">19.54099</td>
+<td style="text-align: center;">0.3543487</td>
+<td style="text-align: center;">0.2851646</td>
+<td style="text-align: center;">0.0230401</td>
+<td style="text-align: center;">0.0185163</td>
+<td style="text-align: center;">0.0065465</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">A</td>
+<td style="text-align: center;">2020</td>
+<td style="text-align: center; background-color: lightpink !important;">46</td>
+<td style="text-align: center; background-color: lightblue !important;">9.6</td>
+<td style="text-align: center;">4956</td>
+<td style="text-align: center;">107.73913</td>
+<td style="text-align: center;">44.78834</td>
+<td style="text-align: center;">14.35749</td>
+<td style="text-align: center;">42.16889</td>
+<td style="text-align: center;">21.47614</td>
+<td style="text-align: center;">0.2729068</td>
+<td style="text-align: center;">0.2461327</td>
+<td style="text-align: center;">0.0177207</td>
+<td style="text-align: center;">0.0159968</td>
+<td style="text-align: center;">0.0023586</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">B</td>
+<td style="text-align: center;">2015</td>
+<td style="text-align: center; background-color: lightpink !important;">7</td>
+<td style="text-align: center; background-color: lightblue !important;">30.9</td>
+<td style="text-align: center;">338</td>
+<td style="text-align: center;">48.28571</td>
+<td style="text-align: center;">106.13314</td>
+<td style="text-align: center;">43.46106</td>
+<td style="text-align: center;">139.73077</td>
+<td style="text-align: center;">80.25432</td>
+<td style="text-align: center;">3.8606509</td>
+<td style="text-align: center;">6.5105214</td>
+<td style="text-align: center;">0.1548225</td>
+<td style="text-align: center;">0.2601908</td>
+<td style="text-align: center;">0.0983429</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">B</td>
+<td style="text-align: center;">2016</td>
+<td style="text-align: center; background-color: lightpink !important;">13</td>
+<td style="text-align: center; background-color: lightblue !important;">17.8</td>
+<td style="text-align: center;">629</td>
+<td style="text-align: center;">48.38462</td>
+<td style="text-align: center;">119.43402</td>
+<td style="text-align: center;">42.34072</td>
+<td style="text-align: center;">141.26709</td>
+<td style="text-align: center;">68.74564</td>
+<td style="text-align: center;">3.6142448</td>
+<td style="text-align: center;">4.5645982</td>
+<td style="text-align: center;">0.1447854</td>
+<td style="text-align: center;">0.1825147</td>
+<td style="text-align: center;">0.0506205</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">B</td>
+<td style="text-align: center;">2017</td>
+<td style="text-align: center; background-color: lightpink !important;">11</td>
+<td style="text-align: center; background-color: lightblue !important;">18.6</td>
+<td style="text-align: center;">439</td>
+<td style="text-align: center;">39.90909</td>
+<td style="text-align: center;">96.05695</td>
+<td style="text-align: center;">37.24716</td>
+<td style="text-align: center;">95.98178</td>
+<td style="text-align: center;">47.34253</td>
+<td style="text-align: center;">1.6265604</td>
+<td style="text-align: center;">2.1047953</td>
+<td style="text-align: center;">0.0651936</td>
+<td style="text-align: center;">0.0844315</td>
+<td style="text-align: center;">0.0254570</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">B</td>
+<td style="text-align: center;">2018</td>
+<td style="text-align: center; background-color: lightpink !important;">7</td>
+<td style="text-align: center; background-color: lightblue !important;">26.0</td>
+<td style="text-align: center;">207</td>
+<td style="text-align: center;">29.57143</td>
+<td style="text-align: center;">70.78261</td>
+<td style="text-align: center;">29.40900</td>
+<td style="text-align: center;">95.75362</td>
+<td style="text-align: center;">50.18463</td>
+<td style="text-align: center;">1.6328019</td>
+<td style="text-align: center;">2.5186589</td>
+<td style="text-align: center;">0.0655072</td>
+<td style="text-align: center;">0.1013626</td>
+<td style="text-align: center;">0.0383115</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">B</td>
+<td style="text-align: center;">2019</td>
+<td style="text-align: center; background-color: lightpink !important;">7</td>
+<td style="text-align: center; background-color: lightblue !important;">21.3</td>
+<td style="text-align: center;">211</td>
+<td style="text-align: center;">30.14286</td>
+<td style="text-align: center;">68.88626</td>
+<td style="text-align: center;">26.19008</td>
+<td style="text-align: center;">83.73934</td>
+<td style="text-align: center;">50.64727</td>
+<td style="text-align: center;">1.3237915</td>
+<td style="text-align: center;">1.8395299</td>
+<td style="text-align: center;">0.0527962</td>
+<td style="text-align: center;">0.0737580</td>
+<td style="text-align: center;">0.0278779</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">B</td>
+<td style="text-align: center;">2020</td>
+<td style="text-align: center; background-color: lightpink !important;">5</td>
+<td style="text-align: center; background-color: lightblue !important;">78.3</td>
+<td style="text-align: center;">119</td>
+<td style="text-align: center;">23.80000</td>
+<td style="text-align: center;">47.22689</td>
+<td style="text-align: center;">20.76113</td>
+<td style="text-align: center;">30.94118</td>
+<td style="text-align: center;">38.80553</td>
+<td style="text-align: center;">0.3295609</td>
+<td style="text-align: center;">0.8938315</td>
+<td style="text-align: center;">0.0131824</td>
+<td style="text-align: center;">0.0357533</td>
+<td style="text-align: center;">0.0159893</td>
+</tr>
 </tbody>
 </table>
+
 
 </div>
 <div class="cell-output cell-output-stdout">
@@ -1119,221 +1058,218 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>summary_full_df<span class="sc">$</span>ar_tool <span class="ot">&lt;-</span> ar_tool</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
-
-</div>
 </section>
 <section id="step-7-e" class="level4">
 <h4 class="anchored" data-anchor-id="step-7-e">Step 7 (e)</h4>
 <p>Merge all results in a table (#5)</p>
 <div class="cell">
 <div class="cell-output-display">
-
-<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<table class="table table-sm table-striped small" data-quarto-postprocess="true">
 <caption>Table 5. Number of sample plots by defined by each method</caption>
- <thead>
-  <tr>
-   <th style="text-align:center;"> site </th>
-   <th style="text-align:center;"> year </th>
-   <th style="text-align:center;"> plot_count </th>
-   <th style="text-align:center;"> power </th>
-   <th style="text-align:center;"> ar_tool </th>
-   <th style="text-align:center;"> tree_count </th>
-   <th style="text-align:center;"> density </th>
-   <th style="text-align:center;"> mean_height_cm </th>
-   <th style="text-align:center;"> sd_height_cm </th>
-   <th style="text-align:center;"> mean_diameter_cm </th>
-   <th style="text-align:center;"> sd_diameter_cm </th>
-   <th style="text-align:center;"> mean_biomass </th>
-   <th style="text-align:center;"> sd_biomass </th>
-   <th style="text-align:center;"> mean_tot_carbon_Mg_ha </th>
-   <th style="text-align:center;"> sd_tot_carbon_Mg_ha </th>
-   <th style="text-align:center;"> std_error </th>
-  </tr>
- </thead>
+<thead>
+<tr class="header">
+<th style="text-align: center;" data-quarto-table-cell-role="th">site</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">year</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">plot_count</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">power</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">ar_tool</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">tree_count</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">density</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">mean_height_cm</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">sd_height_cm</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">mean_diameter_cm</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">sd_diameter_cm</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">mean_biomass</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">sd_biomass</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">mean_tot_carbon_Mg_ha</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">sd_tot_carbon_Mg_ha</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">std_error</th>
+</tr>
+</thead>
 <tbody>
-  <tr>
-   <td style="text-align:center;"> A </td>
-   <td style="text-align:center;"> 2010 </td>
-   <td style="text-align:center;background-color: lightblue !important;"> 7 </td>
-   <td style="text-align:center;background-color: lightgreen !important;"> 33.2 </td>
-   <td style="text-align:center;background-color: pink !important;"> 1.9 </td>
-   <td style="text-align:center;"> 746 </td>
-   <td style="text-align:center;"> 106.57143 </td>
-   <td style="text-align:center;"> 86.85523 </td>
-   <td style="text-align:center;"> 31.93930 </td>
-   <td style="text-align:center;"> 71.74397 </td>
-   <td style="text-align:center;"> 42.87782 </td>
-   <td style="text-align:center;"> 0.9435054 </td>
-   <td style="text-align:center;"> 1.6508646 </td>
-   <td style="text-align:center;"> 0.0612936 </td>
-   <td style="text-align:center;"> 0.1072349 </td>
-   <td style="text-align:center;"> 0.0405310 </td>
-  </tr>
-  <tr>
-   <td style="text-align:center;"> A </td>
-   <td style="text-align:center;"> 2017 </td>
-   <td style="text-align:center;background-color: lightblue !important;"> 18 </td>
-   <td style="text-align:center;background-color: lightgreen !important;"> 16.7 </td>
-   <td style="text-align:center;background-color: pink !important;"> 2.8 </td>
-   <td style="text-align:center;"> 3467 </td>
-   <td style="text-align:center;"> 192.61111 </td>
-   <td style="text-align:center;"> 83.88232 </td>
-   <td style="text-align:center;"> 30.36364 </td>
-   <td style="text-align:center;"> 55.01183 </td>
-   <td style="text-align:center;"> 23.99012 </td>
-   <td style="text-align:center;"> 0.4539590 </td>
-   <td style="text-align:center;"> 0.5544686 </td>
-   <td style="text-align:center;"> 0.0294912 </td>
-   <td style="text-align:center;"> 0.0360131 </td>
-   <td style="text-align:center;"> 0.0084884 </td>
-  </tr>
-  <tr>
-   <td style="text-align:center;"> A </td>
-   <td style="text-align:center;"> 2019 </td>
-   <td style="text-align:center;background-color: lightblue !important;"> 8 </td>
-   <td style="text-align:center;background-color: lightgreen !important;"> 7.9 </td>
-   <td style="text-align:center;background-color: pink !important;"> 2.7 </td>
-   <td style="text-align:center;"> 998 </td>
-   <td style="text-align:center;"> 124.75000 </td>
-   <td style="text-align:center;"> 57.19940 </td>
-   <td style="text-align:center;"> 14.06031 </td>
-   <td style="text-align:center;"> 49.92084 </td>
-   <td style="text-align:center;"> 19.54099 </td>
-   <td style="text-align:center;"> 0.3543487 </td>
-   <td style="text-align:center;"> 0.2851646 </td>
-   <td style="text-align:center;"> 0.0230401 </td>
-   <td style="text-align:center;"> 0.0185163 </td>
-   <td style="text-align:center;"> 0.0065465 </td>
-  </tr>
-  <tr>
-   <td style="text-align:center;"> A </td>
-   <td style="text-align:center;"> 2020 </td>
-   <td style="text-align:center;background-color: lightblue !important;"> 46 </td>
-   <td style="text-align:center;background-color: lightgreen !important;"> 9.6 </td>
-   <td style="text-align:center;background-color: pink !important;"> 0.1 </td>
-   <td style="text-align:center;"> 4956 </td>
-   <td style="text-align:center;"> 107.73913 </td>
-   <td style="text-align:center;"> 44.78834 </td>
-   <td style="text-align:center;"> 14.35749 </td>
-   <td style="text-align:center;"> 42.16889 </td>
-   <td style="text-align:center;"> 21.47614 </td>
-   <td style="text-align:center;"> 0.2729068 </td>
-   <td style="text-align:center;"> 0.2461327 </td>
-   <td style="text-align:center;"> 0.0177207 </td>
-   <td style="text-align:center;"> 0.0159968 </td>
-   <td style="text-align:center;"> 0.0023586 </td>
-  </tr>
-  <tr>
-   <td style="text-align:center;"> B </td>
-   <td style="text-align:center;"> 2015 </td>
-   <td style="text-align:center;background-color: lightblue !important;"> 7 </td>
-   <td style="text-align:center;background-color: lightgreen !important;"> 30.9 </td>
-   <td style="text-align:center;background-color: pink !important;"> 4.7 </td>
-   <td style="text-align:center;"> 338 </td>
-   <td style="text-align:center;"> 48.28571 </td>
-   <td style="text-align:center;"> 106.13314 </td>
-   <td style="text-align:center;"> 43.46106 </td>
-   <td style="text-align:center;"> 139.73077 </td>
-   <td style="text-align:center;"> 80.25432 </td>
-   <td style="text-align:center;"> 3.8606509 </td>
-   <td style="text-align:center;"> 6.5105214 </td>
-   <td style="text-align:center;"> 0.1548225 </td>
-   <td style="text-align:center;"> 0.2601908 </td>
-   <td style="text-align:center;"> 0.0983429 </td>
-  </tr>
-  <tr>
-   <td style="text-align:center;"> B </td>
-   <td style="text-align:center;"> 2016 </td>
-   <td style="text-align:center;background-color: lightblue !important;"> 13 </td>
-   <td style="text-align:center;background-color: lightgreen !important;"> 17.8 </td>
-   <td style="text-align:center;background-color: pink !important;"> 8.3 </td>
-   <td style="text-align:center;"> 629 </td>
-   <td style="text-align:center;"> 48.38462 </td>
-   <td style="text-align:center;"> 119.43402 </td>
-   <td style="text-align:center;"> 42.34072 </td>
-   <td style="text-align:center;"> 141.26709 </td>
-   <td style="text-align:center;"> 68.74564 </td>
-   <td style="text-align:center;"> 3.6142448 </td>
-   <td style="text-align:center;"> 4.5645982 </td>
-   <td style="text-align:center;"> 0.1447854 </td>
-   <td style="text-align:center;"> 0.1825147 </td>
-   <td style="text-align:center;"> 0.0506205 </td>
-  </tr>
-  <tr>
-   <td style="text-align:center;"> B </td>
-   <td style="text-align:center;"> 2017 </td>
-   <td style="text-align:center;background-color: lightblue !important;"> 11 </td>
-   <td style="text-align:center;background-color: lightgreen !important;"> 18.6 </td>
-   <td style="text-align:center;background-color: pink !important;"> 5.9 </td>
-   <td style="text-align:center;"> 439 </td>
-   <td style="text-align:center;"> 39.90909 </td>
-   <td style="text-align:center;"> 96.05695 </td>
-   <td style="text-align:center;"> 37.24716 </td>
-   <td style="text-align:center;"> 95.98178 </td>
-   <td style="text-align:center;"> 47.34253 </td>
-   <td style="text-align:center;"> 1.6265604 </td>
-   <td style="text-align:center;"> 2.1047953 </td>
-   <td style="text-align:center;"> 0.0651936 </td>
-   <td style="text-align:center;"> 0.0844315 </td>
-   <td style="text-align:center;"> 0.0254570 </td>
-  </tr>
-  <tr>
-   <td style="text-align:center;"> B </td>
-   <td style="text-align:center;"> 2018 </td>
-   <td style="text-align:center;background-color: lightblue !important;"> 7 </td>
-   <td style="text-align:center;background-color: lightgreen !important;"> 26.0 </td>
-   <td style="text-align:center;background-color: pink !important;"> 2.3 </td>
-   <td style="text-align:center;"> 207 </td>
-   <td style="text-align:center;"> 29.57143 </td>
-   <td style="text-align:center;"> 70.78261 </td>
-   <td style="text-align:center;"> 29.40900 </td>
-   <td style="text-align:center;"> 95.75362 </td>
-   <td style="text-align:center;"> 50.18463 </td>
-   <td style="text-align:center;"> 1.6328019 </td>
-   <td style="text-align:center;"> 2.5186589 </td>
-   <td style="text-align:center;"> 0.0655072 </td>
-   <td style="text-align:center;"> 0.1013626 </td>
-   <td style="text-align:center;"> 0.0383115 </td>
-  </tr>
-  <tr>
-   <td style="text-align:center;"> B </td>
-   <td style="text-align:center;"> 2019 </td>
-   <td style="text-align:center;background-color: lightblue !important;"> 7 </td>
-   <td style="text-align:center;background-color: lightgreen !important;"> 21.3 </td>
-   <td style="text-align:center;background-color: pink !important;"> 3.2 </td>
-   <td style="text-align:center;"> 211 </td>
-   <td style="text-align:center;"> 30.14286 </td>
-   <td style="text-align:center;"> 68.88626 </td>
-   <td style="text-align:center;"> 26.19008 </td>
-   <td style="text-align:center;"> 83.73934 </td>
-   <td style="text-align:center;"> 50.64727 </td>
-   <td style="text-align:center;"> 1.3237915 </td>
-   <td style="text-align:center;"> 1.8395299 </td>
-   <td style="text-align:center;"> 0.0527962 </td>
-   <td style="text-align:center;"> 0.0737580 </td>
-   <td style="text-align:center;"> 0.0278779 </td>
-  </tr>
-  <tr>
-   <td style="text-align:center;"> B </td>
-   <td style="text-align:center;"> 2020 </td>
-   <td style="text-align:center;background-color: lightblue !important;"> 5 </td>
-   <td style="text-align:center;background-color: lightgreen !important;"> 78.3 </td>
-   <td style="text-align:center;background-color: pink !important;"> 6.0 </td>
-   <td style="text-align:center;"> 119 </td>
-   <td style="text-align:center;"> 23.80000 </td>
-   <td style="text-align:center;"> 47.22689 </td>
-   <td style="text-align:center;"> 20.76113 </td>
-   <td style="text-align:center;"> 30.94118 </td>
-   <td style="text-align:center;"> 38.80553 </td>
-   <td style="text-align:center;"> 0.3295609 </td>
-   <td style="text-align:center;"> 0.8938315 </td>
-   <td style="text-align:center;"> 0.0131824 </td>
-   <td style="text-align:center;"> 0.0357533 </td>
-   <td style="text-align:center;"> 0.0159893 </td>
-  </tr>
+<tr class="odd">
+<td style="text-align: center;">A</td>
+<td style="text-align: center;">2010</td>
+<td style="text-align: center; background-color: lightblue !important;">7</td>
+<td style="text-align: center; background-color: lightgreen !important;">33.2</td>
+<td style="text-align: center; background-color: pink !important;">1.9</td>
+<td style="text-align: center;">746</td>
+<td style="text-align: center;">106.57143</td>
+<td style="text-align: center;">86.85523</td>
+<td style="text-align: center;">31.93930</td>
+<td style="text-align: center;">71.74397</td>
+<td style="text-align: center;">42.87782</td>
+<td style="text-align: center;">0.9435054</td>
+<td style="text-align: center;">1.6508646</td>
+<td style="text-align: center;">0.0612936</td>
+<td style="text-align: center;">0.1072349</td>
+<td style="text-align: center;">0.0405310</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">A</td>
+<td style="text-align: center;">2017</td>
+<td style="text-align: center; background-color: lightblue !important;">18</td>
+<td style="text-align: center; background-color: lightgreen !important;">16.7</td>
+<td style="text-align: center; background-color: pink !important;">2.8</td>
+<td style="text-align: center;">3467</td>
+<td style="text-align: center;">192.61111</td>
+<td style="text-align: center;">83.88232</td>
+<td style="text-align: center;">30.36364</td>
+<td style="text-align: center;">55.01183</td>
+<td style="text-align: center;">23.99012</td>
+<td style="text-align: center;">0.4539590</td>
+<td style="text-align: center;">0.5544686</td>
+<td style="text-align: center;">0.0294912</td>
+<td style="text-align: center;">0.0360131</td>
+<td style="text-align: center;">0.0084884</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">A</td>
+<td style="text-align: center;">2019</td>
+<td style="text-align: center; background-color: lightblue !important;">8</td>
+<td style="text-align: center; background-color: lightgreen !important;">7.9</td>
+<td style="text-align: center; background-color: pink !important;">2.7</td>
+<td style="text-align: center;">998</td>
+<td style="text-align: center;">124.75000</td>
+<td style="text-align: center;">57.19940</td>
+<td style="text-align: center;">14.06031</td>
+<td style="text-align: center;">49.92084</td>
+<td style="text-align: center;">19.54099</td>
+<td style="text-align: center;">0.3543487</td>
+<td style="text-align: center;">0.2851646</td>
+<td style="text-align: center;">0.0230401</td>
+<td style="text-align: center;">0.0185163</td>
+<td style="text-align: center;">0.0065465</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">A</td>
+<td style="text-align: center;">2020</td>
+<td style="text-align: center; background-color: lightblue !important;">46</td>
+<td style="text-align: center; background-color: lightgreen !important;">9.6</td>
+<td style="text-align: center; background-color: pink !important;">0.1</td>
+<td style="text-align: center;">4956</td>
+<td style="text-align: center;">107.73913</td>
+<td style="text-align: center;">44.78834</td>
+<td style="text-align: center;">14.35749</td>
+<td style="text-align: center;">42.16889</td>
+<td style="text-align: center;">21.47614</td>
+<td style="text-align: center;">0.2729068</td>
+<td style="text-align: center;">0.2461327</td>
+<td style="text-align: center;">0.0177207</td>
+<td style="text-align: center;">0.0159968</td>
+<td style="text-align: center;">0.0023586</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">B</td>
+<td style="text-align: center;">2015</td>
+<td style="text-align: center; background-color: lightblue !important;">7</td>
+<td style="text-align: center; background-color: lightgreen !important;">30.9</td>
+<td style="text-align: center; background-color: pink !important;">4.7</td>
+<td style="text-align: center;">338</td>
+<td style="text-align: center;">48.28571</td>
+<td style="text-align: center;">106.13314</td>
+<td style="text-align: center;">43.46106</td>
+<td style="text-align: center;">139.73077</td>
+<td style="text-align: center;">80.25432</td>
+<td style="text-align: center;">3.8606509</td>
+<td style="text-align: center;">6.5105214</td>
+<td style="text-align: center;">0.1548225</td>
+<td style="text-align: center;">0.2601908</td>
+<td style="text-align: center;">0.0983429</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">B</td>
+<td style="text-align: center;">2016</td>
+<td style="text-align: center; background-color: lightblue !important;">13</td>
+<td style="text-align: center; background-color: lightgreen !important;">17.8</td>
+<td style="text-align: center; background-color: pink !important;">8.3</td>
+<td style="text-align: center;">629</td>
+<td style="text-align: center;">48.38462</td>
+<td style="text-align: center;">119.43402</td>
+<td style="text-align: center;">42.34072</td>
+<td style="text-align: center;">141.26709</td>
+<td style="text-align: center;">68.74564</td>
+<td style="text-align: center;">3.6142448</td>
+<td style="text-align: center;">4.5645982</td>
+<td style="text-align: center;">0.1447854</td>
+<td style="text-align: center;">0.1825147</td>
+<td style="text-align: center;">0.0506205</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">B</td>
+<td style="text-align: center;">2017</td>
+<td style="text-align: center; background-color: lightblue !important;">11</td>
+<td style="text-align: center; background-color: lightgreen !important;">18.6</td>
+<td style="text-align: center; background-color: pink !important;">5.9</td>
+<td style="text-align: center;">439</td>
+<td style="text-align: center;">39.90909</td>
+<td style="text-align: center;">96.05695</td>
+<td style="text-align: center;">37.24716</td>
+<td style="text-align: center;">95.98178</td>
+<td style="text-align: center;">47.34253</td>
+<td style="text-align: center;">1.6265604</td>
+<td style="text-align: center;">2.1047953</td>
+<td style="text-align: center;">0.0651936</td>
+<td style="text-align: center;">0.0844315</td>
+<td style="text-align: center;">0.0254570</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">B</td>
+<td style="text-align: center;">2018</td>
+<td style="text-align: center; background-color: lightblue !important;">7</td>
+<td style="text-align: center; background-color: lightgreen !important;">26.0</td>
+<td style="text-align: center; background-color: pink !important;">2.3</td>
+<td style="text-align: center;">207</td>
+<td style="text-align: center;">29.57143</td>
+<td style="text-align: center;">70.78261</td>
+<td style="text-align: center;">29.40900</td>
+<td style="text-align: center;">95.75362</td>
+<td style="text-align: center;">50.18463</td>
+<td style="text-align: center;">1.6328019</td>
+<td style="text-align: center;">2.5186589</td>
+<td style="text-align: center;">0.0655072</td>
+<td style="text-align: center;">0.1013626</td>
+<td style="text-align: center;">0.0383115</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">B</td>
+<td style="text-align: center;">2019</td>
+<td style="text-align: center; background-color: lightblue !important;">7</td>
+<td style="text-align: center; background-color: lightgreen !important;">21.3</td>
+<td style="text-align: center; background-color: pink !important;">3.2</td>
+<td style="text-align: center;">211</td>
+<td style="text-align: center;">30.14286</td>
+<td style="text-align: center;">68.88626</td>
+<td style="text-align: center;">26.19008</td>
+<td style="text-align: center;">83.73934</td>
+<td style="text-align: center;">50.64727</td>
+<td style="text-align: center;">1.3237915</td>
+<td style="text-align: center;">1.8395299</td>
+<td style="text-align: center;">0.0527962</td>
+<td style="text-align: center;">0.0737580</td>
+<td style="text-align: center;">0.0278779</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">B</td>
+<td style="text-align: center;">2020</td>
+<td style="text-align: center; background-color: lightblue !important;">5</td>
+<td style="text-align: center; background-color: lightgreen !important;">78.3</td>
+<td style="text-align: center; background-color: pink !important;">6.0</td>
+<td style="text-align: center;">119</td>
+<td style="text-align: center;">23.80000</td>
+<td style="text-align: center;">47.22689</td>
+<td style="text-align: center;">20.76113</td>
+<td style="text-align: center;">30.94118</td>
+<td style="text-align: center;">38.80553</td>
+<td style="text-align: center;">0.3295609</td>
+<td style="text-align: center;">0.8938315</td>
+<td style="text-align: center;">0.0131824</td>
+<td style="text-align: center;">0.0357533</td>
+<td style="text-align: center;">0.0159893</td>
+</tr>
 </tbody>
 </table>
+
 
 </div>
 <div class="cell-output cell-output-stdout">
@@ -1346,8 +1282,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Create a graph (#4) that shows the calculated number of plots per method and per project</p>
 <div class="cell">
 <div class="cell-output-display">
-<div class="plotly html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-9c7057109cf48591c0a3" style="width:100%;height:464px;"></div>
-<script type="application/json" data-for="htmlwidget-9c7057109cf48591c0a3">{"x":{"data":[{"x":[1,4,7,9,2,3,5,6,8,10],"y":[33.2,16.7,7.9,9.6,30.9,17.8,18.6,26,21.3,78.3],"text":["year: 2010 site: A<br />power: 33.2<br />colour: power","year: 2017 site: A<br />power: 16.7<br />colour: power","year: 2019 site: A<br />power:  7.9<br />colour: power","year: 2020 site: A<br />power:  9.6<br />colour: power","year: 2015 site: B<br />power: 30.9<br />colour: power","year: 2016 site: B<br />power: 17.8<br />colour: power","year: 2017 site: B<br />power: 18.6<br />colour: power","year: 2018 site: B<br />power: 26.0<br />colour: power","year: 2019 site: B<br />power: 21.3<br />colour: power","year: 2020 site: B<br />power: 78.3<br />colour: power"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(0,186,56,1)","opacity":1,"size":5.66929133858268,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(0,186,56,1)"}},"hoveron":"points","name":"power","legendgroup":"power","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[1,4,7,9,2,3,5,6,8,10],"y":[7,18,8,46,7,13,11,7,7,5],"text":["year: 2010 site: A<br />plot_count:  7<br />colour: real","year: 2017 site: A<br />plot_count: 18<br />colour: real","year: 2019 site: A<br />plot_count:  8<br />colour: real","year: 2020 site: A<br />plot_count: 46<br />colour: real","year: 2015 site: B<br />plot_count:  7<br />colour: real","year: 2016 site: B<br />plot_count: 13<br />colour: real","year: 2017 site: B<br />plot_count: 11<br />colour: real","year: 2018 site: B<br />plot_count:  7<br />colour: real","year: 2019 site: B<br />plot_count:  7<br />colour: real","year: 2020 site: B<br />plot_count:  5<br />colour: real"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(97,156,255,1)","opacity":1,"size":5.66929133858268,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(97,156,255,1)"}},"hoveron":"points","name":"real","legendgroup":"real","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[1,4,7,9,2,3,5,6,8,10],"y":[1.9,2.8,2.7,0.1,4.7,8.3,5.9,2.3,3.2,6],"text":["year: 2010 site: A<br />ar_tool: 1.9<br />colour: A/R Tool","year: 2017 site: A<br />ar_tool: 2.8<br />colour: A/R Tool","year: 2019 site: A<br />ar_tool: 2.7<br />colour: A/R Tool","year: 2020 site: A<br />ar_tool: 0.1<br />colour: A/R Tool","year: 2015 site: B<br />ar_tool: 4.7<br />colour: A/R Tool","year: 2016 site: B<br />ar_tool: 8.3<br />colour: A/R Tool","year: 2017 site: B<br />ar_tool: 5.9<br />colour: A/R Tool","year: 2018 site: B<br />ar_tool: 2.3<br />colour: A/R Tool","year: 2019 site: B<br />ar_tool: 3.2<br />colour: A/R Tool","year: 2020 site: B<br />ar_tool: 6.0<br />colour: A/R Tool"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(248,118,109,1)","opacity":1,"size":5.66929133858268,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(248,118,109,1)"}},"hoveron":"points","name":"A/R Tool","legendgroup":"A/R Tool","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":43.7625570776256,"r":7.30593607305936,"b":98.6301369863014,"l":37.2602739726027},"plot_bgcolor":"rgba(235,235,235,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"title":{"text":"Estimated number of plots per project","font":{"color":"rgba(0,0,0,1)","family":"","size":17.5342465753425},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.4,10.6],"tickmode":"array","ticktext":["2010 site: A","2015 site: B","2016 site: B","2017 site: A","2017 site: B","2018 site: B","2019 site: A","2019 site: B","2020 site: A","2020 site: B"],"tickvals":[1,2,3,4,5,6,7,8,9,10],"categoryorder":"array","categoryarray":["2010 site: A","2015 site: B","2016 site: B","2017 site: A","2017 site: B","2018 site: B","2019 site: A","2019 site: B","2020 site: A","2020 site: B"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-90,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"y","title":{"text":"Plantation Year","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-3.81,82.21],"tickmode":"array","ticktext":["0","20","40","60","80"],"tickvals":[0,20,40,60,80],"categoryorder":"array","categoryarray":["0","20","40","60","80"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"x","title":{"text":"Number of Plots","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.88976377952756,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716895},"title":{"text":"Method","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"17f2b60c635a4":{"x":{},"y":{},"colour":{},"type":"scatter"},"17f2b74ebd39e":{"x":{},"y":{},"colour":{}},"17f2b2692660a":{"x":{},"y":{},"colour":{}}},"cur_data":"17f2b60c635a4","visdat":{"17f2b60c635a4":["function (y) ","x"],"17f2b74ebd39e":["function (y) ","x"],"17f2b2692660a":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<div class="plotly html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-183c96e4e7bbc81ca79e" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-183c96e4e7bbc81ca79e">{"x":{"data":[{"x":[1,4,7,9,2,3,5,6,8,10],"y":[33.2,16.7,7.9,9.6,30.9,17.8,18.6,26,21.3,78.3],"text":["year: 2010 site: A<br />power: 33.2<br />colour: power","year: 2017 site: A<br />power: 16.7<br />colour: power","year: 2019 site: A<br />power:  7.9<br />colour: power","year: 2020 site: A<br />power:  9.6<br />colour: power","year: 2015 site: B<br />power: 30.9<br />colour: power","year: 2016 site: B<br />power: 17.8<br />colour: power","year: 2017 site: B<br />power: 18.6<br />colour: power","year: 2018 site: B<br />power: 26.0<br />colour: power","year: 2019 site: B<br />power: 21.3<br />colour: power","year: 2020 site: B<br />power: 78.3<br />colour: power"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(0,186,56,1)","opacity":1,"size":5.66929133858268,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(0,186,56,1)"}},"hoveron":"points","name":"power","legendgroup":"power","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[1,4,7,9,2,3,5,6,8,10],"y":[7,18,8,46,7,13,11,7,7,5],"text":["year: 2010 site: A<br />plot_count:  7<br />colour: real","year: 2017 site: A<br />plot_count: 18<br />colour: real","year: 2019 site: A<br />plot_count:  8<br />colour: real","year: 2020 site: A<br />plot_count: 46<br />colour: real","year: 2015 site: B<br />plot_count:  7<br />colour: real","year: 2016 site: B<br />plot_count: 13<br />colour: real","year: 2017 site: B<br />plot_count: 11<br />colour: real","year: 2018 site: B<br />plot_count:  7<br />colour: real","year: 2019 site: B<br />plot_count:  7<br />colour: real","year: 2020 site: B<br />plot_count:  5<br />colour: real"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(97,156,255,1)","opacity":1,"size":5.66929133858268,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(97,156,255,1)"}},"hoveron":"points","name":"real","legendgroup":"real","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[1,4,7,9,2,3,5,6,8,10],"y":[1.9,2.8,2.7,0.1,4.7,8.3,5.9,2.3,3.2,6],"text":["year: 2010 site: A<br />ar_tool: 1.9<br />colour: A/R Tool","year: 2017 site: A<br />ar_tool: 2.8<br />colour: A/R Tool","year: 2019 site: A<br />ar_tool: 2.7<br />colour: A/R Tool","year: 2020 site: A<br />ar_tool: 0.1<br />colour: A/R Tool","year: 2015 site: B<br />ar_tool: 4.7<br />colour: A/R Tool","year: 2016 site: B<br />ar_tool: 8.3<br />colour: A/R Tool","year: 2017 site: B<br />ar_tool: 5.9<br />colour: A/R Tool","year: 2018 site: B<br />ar_tool: 2.3<br />colour: A/R Tool","year: 2019 site: B<br />ar_tool: 3.2<br />colour: A/R Tool","year: 2020 site: B<br />ar_tool: 6.0<br />colour: A/R Tool"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(248,118,109,1)","opacity":1,"size":5.66929133858268,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(248,118,109,1)"}},"hoveron":"points","name":"A/R Tool","legendgroup":"A/R Tool","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":43.7625570776256,"r":7.30593607305936,"b":98.6301369863014,"l":37.2602739726027},"plot_bgcolor":"rgba(235,235,235,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"title":{"text":"Estimated number of plots per project","font":{"color":"rgba(0,0,0,1)","family":"","size":17.5342465753425},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.4,10.6],"tickmode":"array","ticktext":["2010 site: A","2015 site: B","2016 site: B","2017 site: A","2017 site: B","2018 site: B","2019 site: A","2019 site: B","2020 site: A","2020 site: B"],"tickvals":[1,2,3,4,5,6,7,8,9,10],"categoryorder":"array","categoryarray":["2010 site: A","2015 site: B","2016 site: B","2017 site: A","2017 site: B","2018 site: B","2019 site: A","2019 site: B","2020 site: A","2020 site: B"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-90,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"y","title":{"text":"Plantation Year","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-3.81,82.21],"tickmode":"array","ticktext":["0","20","40","60","80"],"tickvals":[0,20,40,60,80],"categoryorder":"array","categoryarray":["0","20","40","60","80"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"x","title":{"text":"Number of Plots","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.88976377952756,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716895},"title":{"text":"Method","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"1127c716742fe":{"x":{},"y":{},"colour":{},"type":"scatter"},"1127c325f6bdc":{"x":{},"y":{},"colour":{}},"1127c16a2525a":{"x":{},"y":{},"colour":{}}},"cur_data":"1127c716742fe","visdat":{"1127c716742fe":["function (y) ","x"],"1127c325f6bdc":["function (y) ","x"],"1127c16a2525a":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 </section>
@@ -1490,9 +1426,23 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     icon: icon
   };
   anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
   const clipboard = new window.ClipboardJS('.code-copy-button', {
-    target: function(trigger) {
-      return trigger.previousElementSibling;
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
     }
   });
   clipboard.on('success', function(e) {
@@ -1557,6 +1507,92 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       return note.innerHTML;
     });
   }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
   const findCites = (el) => {
     const parentEl = el.parentElement;
     if (parentEl) {
